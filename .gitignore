@@ -16,3 +16,4 @@ models/
 # rebuilt by bench/build_calib.py (source datasets have their own licenses)
 bench/data/
 README_GUIDE.md
+COMPARISON.md
