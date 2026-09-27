@@ -17,3 +17,4 @@ models/
 bench/data/
 README_GUIDE.md
 COMPARISON.md
+*.egg-info/

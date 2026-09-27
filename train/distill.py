@@ -1,27 +1,21 @@
-"""Distill Jev's typed decisions into a small Qwen3.5 through the same letter-slot readout the engine uses.
-
-  ../scripts/memguard.sh ../.venv-train/bin/python distill.py --base base/Qwen3.5-2B --out runs/fast2b --n 16000
-  (4B: add --load-4bit; checkpoints every 1,600 examples, rerun the same command to resume)
-
-Targets: jev-distill-corpus-v3 `yuri_v3` rows carry Jev 1.13's own probabilities; Open-Jev rows carry gold labels.
-Loss: soft cross-entropy between the target distribution and softmax over the option-letter logits at the answer
-slot, with the option order shuffled every example so no letter learns a label. LoRA on every projection.
-"""
+# trains a small Qwen3.5 to match Jev's own probabilities, through the exact prompt the engine uses
+#   ../scripts/memguard.sh ../.venv-train/bin/python distill.py --base base/Qwen3.5-2B --out runs/fast2b --n 16000
+# add --load-4bit for the 4B, and rerun the same command to pick up from the last checkpoint
 import argparse, json, math, os, random, sys, time
 
-os.environ.setdefault("ROCPROFILER_REGISTER_ENABLED", "0")  # PyTorch-ROCm's profiler hook otherwise spins a CPU core at 100%
-os.environ.setdefault("HSA_OVERRIDE_GFX_VERSION", "11.0.0")  # RX 7700S (gfx1102) runs the gfx1100 kernels
+os.environ.setdefault("ROCPROFILER_REGISTER_ENABLED", "0")  # without this a CPU core sits at 100% the whole run
+os.environ.setdefault("HSA_OVERRIDE_GFX_VERSION", "11.0.0")  # the RX 7700S runs the gfx1100 kernels
 import torch  # noqa: E402
 from peft import LoraConfig, PeftModel, get_peft_model
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, ".."))
-from jev import prompt as P  # noqa: E402
-from jev.thermal import guard, hottest  # noqa: E402
+from marq import prompt as P  # noqa: E402
+from marq.thermal import guard, hottest  # noqa: E402
 from bench.build_calib import convert  # noqa: E402
 
-HEAD = "<|im_start|>user\n"  # llama.cpp's rendering of the Qwen3.5 template, as the engine uses it
+HEAD = "<|im_start|>user\n"  # has to match what the engine sends
 TAIL = "<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n"
 TARGETS = ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj",
            "in_proj_qkv", "in_proj_z", "in_proj_a", "in_proj_b", "out_proj"]
@@ -31,7 +25,7 @@ def load_rows(n, seed):
     rnd = random.Random(seed)
     want = {"yuri_v3": int(n * 0.7), "openjev_v2": int(n * 0.15)}
     res, seen = {k: [] for k in want}, {k: 0 for k in want}
-    for line in open(os.path.join(HERE, "data", "distill_train.jsonl")):  # reservoir sample: 656k rows never all in RAM
+    for line in open(os.path.join(HERE, "data", "distill_train.jsonl")):  # sampled on the fly so 656k rows never sit in RAM
         r = json.loads(line)
         k = r["source"]
         if k not in want:
@@ -63,14 +57,13 @@ class Encoder:
         self.letters = [tok.encode(c, add_special_tokens=False)[0] for c in P.LETTERS]
 
     def __call__(self, row, rnd):
-        """-> (input ids, target over lettered positions) with a random lettering, or None if too long."""
         instr, opts = P.options(row["question"])
         keys = [k for k, _ in opts] if row["question"]["type"] != "noul" else ["yes", "no"]
         tgt = [row["target"].get(k, 0.0) for k in keys]
         if len(opts) > len(P.LETTERS) or sum(tgt) <= 0:
             return None
         order = list(range(len(opts)))
-        rnd.shuffle(order)
+        rnd.shuffle(order)  # new letter order every time so no letter learns an answer
         ids = (self.head + self.tok.encode(P.prefix(P.text(row["state"])), add_special_tokens=False)
                + self.tok.encode(P.question(instr, [opts[i] for i in order]), add_special_tokens=False) + self.tail)
         if len(ids) > self.max_len:
@@ -121,7 +114,7 @@ def main():
     torch.manual_seed(0)
     tok = AutoTokenizer.from_pretrained(a.base)
     enc = Encoder(tok, a.max_len)
-    if a.load_4bit:  # QLoRA: NF4 base so a 4B model trains in 8 GB of VRAM
+    if a.load_4bit:  # 4-bit base so the 4B fits in 8 GB
         from transformers import BitsAndBytesConfig
         q = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.bfloat16)
         model = AutoModelForCausalLM.from_pretrained(a.base, dtype=torch.bfloat16, quantization_config=q, device_map={"": 0})
@@ -130,7 +123,7 @@ def main():
     model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
     model.enable_input_require_grads()
     progress = os.path.join(a.out, "progress.json")
-    done = json.load(open(progress))["seen"] if os.path.exists(progress) else 0  # resume after a kill
+    done = json.load(open(progress))["seen"] if os.path.exists(progress) else 0
     if done:
         model = PeftModel.from_pretrained(model, a.out, is_trainable=True)
     else:
@@ -155,7 +148,7 @@ def main():
         ex = enc(r, rnd)
         if not ex:
             continue
-        if seen < done:  # already trained on before the resume (rnd advanced identically)
+        if seen < done:  # already done before the resume
             seen += 1
             step += seen % a.accum == 0
             continue
@@ -172,7 +165,7 @@ def main():
             sched.step()
             opt.zero_grad(set_to_none=True)
             step += 1
-            guard()  # pause while the laptop is hot (JEV_MAX_TEMP, default 85C)
+            guard()
             if step % 20 == 0:
                 print(json.dumps({"step": step, "of": total, "loss": round(run_loss / (20 * a.accum), 4),
                                   "ex_s": round((seen - done) / (time.time() - t0), 2), "temp": hottest()}), flush=True)

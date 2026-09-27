@@ -1,12 +1,11 @@
-"""Jev-compatible typed decisions on a local GGUF model.
+"""Jev-style typed decisions on a local GGUF model.
 
-One request = one prefill of the shared state into sequence 0, then every question (x lettering x chunk)
-gets its own sequence copied from 0 and only its suffix is decoded, all in as few batches as possible.
-The answer is the softmax over the option-letter logits at the first answer position.
+The state gets prefilled once, then every question branches off it into its own sequence and only its
+own few tokens get decoded, so asking 5 questions costs barely more than asking 1.
 """
 import base64, ctypes, glob, hashlib, json, math, os, time
 
-# RX 7700S is Vulkan device 1 here (0 = 780M iGPU); keeps layers off the iGPU. Override with the env var.
+# the RX 7700S is Vulkan device 1 here (0 is the iGPU), so this keeps layers off the iGPU
 os.environ.setdefault("GGML_VK_VISIBLE_DEVICES", "1")
 import llama_cpp as L  # noqa: E402
 
@@ -14,7 +13,7 @@ from .prompt import LETTERS, options, prefix, question, text as _text  # noqa: E
 MAX_OPTIONS, MIN_LEVELS, MAX_LEVELS, MAX_TOKENS = 255, 2, 10, 32768
 DEFAULT_CALIB = {"T": 1.0, "noul_T": 1.0, "noul_b": 0.0, "perms": 2, "bias": {}}
 IMAGE_KEYS = ("screenshot", "image")
-CKPT_EVERY, N_CKPT = 128, 4  # prefill checkpoints for hybrid models: every 128 tokens, deepest 4 kept
+CKPT_EVERY, N_CKPT = 128, 4  # Qwen3.5 can't rewind, so it keeps a checkpoint every 128 tokens (last 4)
 
 
 class BadRequest(ValueError):
@@ -27,8 +26,8 @@ def _bad(loc, msg, typ="value_error"):
     return BadRequest([{"loc": ["body", *loc], "msg": msg, "type": typ}])
 
 
+# both confidence formulas are the ones TypeSafe publishes
 def choice_confidence(p):
-    """TypeSafe's formula: how far the top probability sits above uniform."""
     if len(p) == 1:
         return 1.0
     u = 1.0 / len(p)
@@ -36,7 +35,6 @@ def choice_confidence(p):
 
 
 def score_confidence(p):
-    """TypeSafe's formula: 1 - expected distance from the mode / that of a uniform distribution."""
     if len(p) == 1:
         return 1.0
     mode = max(range(len(p)), key=p.__getitem__)
@@ -53,8 +51,8 @@ def _softmax(z):
     return [v / s for v in e]
 
 
+# same rules and error shapes as the official API
 def validate(body):
-    """Mirror of the official OpenAPI schema. Returns (state, questions)."""
     if not isinstance(body, dict):
         raise _bad([], "Input should be a valid dictionary", "dict_type")
     if "state" not in body:
@@ -82,8 +80,8 @@ def validate(body):
 MAGIC = (b"\x89PNG", b"\xff\xd8\xff", b"GIF8", b"RIFF", b"BM")
 
 
+# a broken data URL is a 422, but long plain text in an image field is just text
 def _image_bytes(v):
-    """Bytes of a data-URL / base64 image, None for ordinary text. A broken data URL is a 422."""
     url = v.startswith("data:image")
     if not url and len(v) < 256:
         return None
@@ -98,8 +96,8 @@ def _image_bytes(v):
     return None
 
 
+# OpenJev's convention - state.image / state.screenshot goes to the model as an image
 def split_image(state):
-    """OpenJev convention: state.screenshot / state.image (data URL or base64 PNG/JPEG/...) rides along as an image."""
     if isinstance(state, dict):
         for k in IMAGE_KEYS:
             v = state.get(k)
@@ -112,8 +110,8 @@ def split_image(state):
 SPILL_MARGIN_MB, GTT_GROWTH_MB = 192, 512
 
 
+# (vram used, gtt used, vram total) in MB for the GPU with the most VRAM
 def gpu_mem():
-    """(vram_used, gtt_used, vram_total) in MB for the GPU with the most VRAM (the RX 7700S), or None."""
     best = None
     for d in glob.glob("/sys/class/drm/card*/device"):
         try:
@@ -125,9 +123,9 @@ def gpu_mem():
     return best
 
 
+# the amdgpu driver lets VRAM spill into system RAM without saying anything, and on 14 GB
+# that ended with the OOM killer taking out the whole desktop, so anything that spills gets refused
 def spilled(before, after, vram_total):
-    """True when an allocation overflowed VRAM into system RAM (GTT): the amdgpu driver allows it silently, and
-    on a 14 GB laptop it ends in the kernel OOM-killing the desktop."""
     if not before or not after or not vram_total:
         return False
     return after[0] > vram_total - SPILL_MARGIN_MB or after[1] - before[1] > GTT_GROWTH_MB
@@ -139,10 +137,10 @@ class Engine:
         self.calib = {**DEFAULT_CALIB, **(calib or {})}
         L.llama_backend_init()
         self._quiet = L.llama_log_callback(lambda level, text, data: None)
-        if not os.environ.get("JEV_VERBOSE"):
+        if not os.environ.get("MARQ_VERBOSE"):
             L.llama_log_set(self._quiet, None)
         mp = L.llama_model_default_params()
-        mp.n_gpu_layers = int(os.environ.get("JEV_GPU_LAYERS", "-1"))
+        mp.n_gpu_layers = int(os.environ.get("MARQ_GPU_LAYERS", "-1"))
         m0 = gpu_mem()
         self.model = L.llama_model_load_from_file(model_path.encode(), mp)
         if not self.model:
@@ -153,10 +151,10 @@ class Engine:
             raise RuntimeError(f"{os.path.basename(model_path)} does not fit in free VRAM (it would spill into system RAM); "
                                "close other GPU programs or pick a smaller model")
         self.mtmd = None
-        if mmproj:  # before the context, so the context-fit loop below budgets the projector's VRAM too
+        if mmproj:  # loaded before the context so the fit check below counts it too
             import llama_cpp.mtmd_cpp as M
             self.M = M
-            if not os.environ.get("JEV_VERBOSE"):
+            if not os.environ.get("MARQ_VERBOSE"):
                 M.mtmd_helper_log_set(self._quiet, None)
             mcp = M.mtmd_context_params_default()
             mcp.use_gpu, mcp.n_threads = True, os.cpu_count() // 2
@@ -168,16 +166,16 @@ class Engine:
         self.n_vocab = L.llama_vocab_n_tokens(self.vocab)
         n_ctx = min(n_ctx, L.llama_model_n_ctx_train(self.model) or n_ctx)
         self.n_seq = n_seq
-        while True:  # halve the context until it fits in VRAM
+        while True:  # halve the context until it fits
             cp = L.llama_context_default_params()
             cp.n_ctx, cp.n_batch, cp.n_ubatch, cp.n_seq_max = n_ctx, 2048, 1024, n_seq + 1 + N_CKPT
             cp.n_threads = cp.n_threads_batch = os.cpu_count() // 2
             cp.flash_attn_type = L.LLAMA_FLASH_ATTN_TYPE_ENABLED
             cp.type_k = cp.type_v = 8  # GGML_TYPE_Q8_0
-            cp.kv_unified = True  # all sequences share the state's KV cells
+            cp.kv_unified = True
             cp.no_perf = True
             self.ctx = L.llama_init_from_model(self.model, cp)
-            if self.ctx and spilled(m1, gpu_mem(), m1 and m1[2]):  # fits only by eating system RAM: shrink instead
+            if self.ctx and spilled(m1, gpu_mem(), m1 and m1[2]):
                 L.llama_free(self.ctx)
                 self.ctx = None
             if self.ctx or n_ctx <= 4096:
@@ -196,11 +194,10 @@ class Engine:
             raise RuntimeError("tokenizer does not map each option letter to its own single token")
         self.letter_ids = [t[0] for t in self.letter_ids]
         self.pad = self._tok("\n")[0]
-        self.cached, self.cached_text, self.ckpts = [], True, []  # prompt in sequence 0; checkpoints (n_past, seq)
+        self.cached, self.cached_text, self.ckpts = [], True, []
         self.ckpt_ids = list(range(n_seq + 1, n_seq + 1 + N_CKPT))
         self.trace = None
 
-    # ---------- tokens ----------
     def _tok(self, text, special=False, bos=False):
         b = text.encode()
         buf = (L.llama_token * (len(b) + 8))()
@@ -211,22 +208,19 @@ class Engine:
         return list(buf[:n])
 
     def _template(self):
-        """(head, tail) around the user content, rendered by llama.cpp from the model's own template."""
         tmpl = L.llama_model_chat_template(self.model, None)
-        sentinel = "\x01JEV\x01"
+        sentinel = "\x01MARQ\x01"
         msg = (L.llama_chat_message * 1)(L.llama_chat_message(role=b"user", content=sentinel.encode()))
         buf = ctypes.create_string_buffer(4096)
         n = L.llama_chat_apply_template(tmpl, msg, 1, True, buf, len(buf))
-        if n < 0:  # no usable template: plain text
+        if n < 0:  # no template, so plain text
             return "", "\nAnswer:"
         head, tail = buf.raw[:n].decode().split(sentinel)
         if "<think>" in (tmpl or b"").decode(errors="ignore") and "<think>" not in tail:
-            tail += "<think>\n\n</think>\n\n"  # thinking off, as Qwen3.x's own template does
+            tail += "<think>\n\n</think>\n\n"  # thinking off, same as Qwen's own template
         return head, tail
 
-    # ---------- KV plumbing ----------
     def _decode(self, items):
-        """items: list of (token, pos, seq, want_logits). One llama_decode. Returns batch index per logits item."""
         b = self.batch
         for i, (t, p, s, want) in enumerate(items):
             b.token[i], b.pos[i], b.n_seq_id[i], b.logits[i] = t, p, 1, want
@@ -236,10 +230,9 @@ class Engine:
         if rc != 0:
             raise RuntimeError(f"llama_decode failed ({rc})")
 
+    # reuses as much of the last prompt as it can - an extension only decodes the new part, normal models
+    # truncate, and hybrid ones (Qwen3.5) restore the closest checkpoint
     def _prefill(self, parts):
-        """parts: list of token lists or ('img', bytes). Leaves exactly `parts` in sequence 0, reusing what it can:
-        an extension of the cached prompt decodes only the tail; attention-only models truncate to the common prefix;
-        hybrid/recurrent models (Qwen3.5) restore the deepest checkpoint inside the common prefix."""
         key = [t if isinstance(t, int) else hashlib.sha1(t[1]).hexdigest() for p in parts for t in (p if isinstance(p, list) else [p])]
         text = all(isinstance(p, list) for p in parts)
         self.prefilled, common = 0, 0
@@ -247,10 +240,10 @@ class Engine:
             if a != b:
                 break
             common += 1
-        old, self.cached = self.cached, []  # invalid until this prefill completes: a failure must not leave stale reuse
+        old, self.cached = self.cached, []  # so a failure halfway can't leave stale reuse behind
         if old and common == len(old):
-            start = common  # plain extension (also covers an identical prompt)
-        elif text and self.cached_text and common and not self.recurrent:  # attention-only: truncate
+            start = common
+        elif text and self.cached_text and common and not self.recurrent:
             L.llama_memory_seq_rm(self.mem, 0, common, -1)
             start = self.n_past = common
         else:
@@ -275,7 +268,7 @@ class Engine:
                 toks = p[max(0, start - done):]
                 while toks:
                     step = self.n_batch
-                    if text and self.recurrent:  # stop at the next checkpoint boundary
+                    if text and self.recurrent:
                         step = min(step, CKPT_EVERY - self.n_past % CKPT_EVERY)
                     chunk, toks = toks[:step], toks[step:]
                     self._decode([(t, self.n_past + j, 0, False) for j, t in enumerate(chunk)])
@@ -290,9 +283,8 @@ class Engine:
         return self.n_past
 
     def _checkpoint(self):
-        """Snapshot sequence 0 at n_past into a spare sequence (recurrent state is copied, KV cells are shared)."""
         free = [s for s in self.ckpt_ids if s not in {c[1] for c in self.ckpts}]
-        if not free:  # evict the shallowest
+        if not free:
             old = min(self.ckpts)
             self.ckpts.remove(old)
             free = [old[1]]
@@ -322,7 +314,6 @@ class Engine:
             M.mtmd_bitmap_free(bmp)
 
     def _readouts(self, jobs):
-        """jobs: list of (suffix tokens, n_options). Returns raw letter logits per job."""
         out = [None] * len(jobs)
         room = min(self.n_batch, self.n_ctx - self.n_past)
         i = 0
@@ -330,7 +321,7 @@ class Engine:
             group, used = [], 0
             while i < len(jobs) and len(group) < self.n_seq and (len(group) + 1) * max(used, len(jobs[i][0])) <= room:
                 group.append(i)
-                used = max(used, len(jobs[i][0]))  # widest suffix; the group costs len(group) * used after padding
+                used = max(used, len(jobs[i][0]))
                 i += 1
             if not group:
                 raise _bad(["state"], "state and question do not fit the context window")
@@ -339,7 +330,7 @@ class Engine:
             for s, j in enumerate(group, 1):
                 L.llama_memory_seq_cp(self.mem, 0, s, -1, -1)
                 toks = jobs[j][0]
-                if self.recurrent:  # equal lengths let llama.cpp run all sequences in one equal-split ubatch
+                if self.recurrent:  # llama.cpp only batches hybrid models' sequences together at equal lengths
                     toks = [self.pad] * (width - len(toks)) + toks
                 items += [(t, self.n_past + k, s, k == len(toks) - 1) for k, t in enumerate(toks)]
                 last.append(len(items) - 1)
@@ -351,7 +342,6 @@ class Engine:
                 L.llama_memory_seq_rm(self.mem, s, -1, -1)
         return out
 
-    # ---------- prompts ----------
     def _suffix(self, instructions, opts):
         return self._tok(question(instructions, opts)) + self._tok(self.tail, special=True)
 
@@ -362,15 +352,14 @@ class Engine:
         return orders
 
     def _dist_jobs(self, instructions, opts, perms):
-        """Plan the readouts for one question. Returns (jobs, combine(logit lists) -> probs)."""
         T = self.calib["T"]
-        bias = self.calib["bias"].get(str(len(opts))) or [0.0] * len(opts)  # fitted letter-position prior
+        bias = self.calib["bias"].get(str(len(opts))) or [0.0] * len(opts)  # fitted by bench/calib.py
         if len(opts) <= len(LETTERS):
             orders = self._orders(len(opts), perms)
             jobs = [(self._suffix(instructions, [opts[i] for i in o]), len(opts)) for o in orders]
 
             def combine(res):
-                if self.trace is not None:  # calibration hook: raw letter logits per lettering
+                if self.trace is not None:  # for bench/calib.py
                     self.trace.append((orders, [list(z) for z in res]))
                 acc = [0.0] * len(opts)
                 for o, z in zip(orders, res):
@@ -378,10 +367,10 @@ class Engine:
                         acc[i] += _softmax([(v - b) / T for v, b in zip(z, bias)])[pos] / len(orders)
                 return acc
             return jobs, combine
-        return None, None  # >52 options: handled by _many
+        return None, None
 
+    # over 52 options - read each chunk, then the chunk winners, and combine them
     def _many(self, instructions, opts, perms):
-        """>52 options: readout per chunk, then over the chunk winners; composed into one distribution."""
         k = -(-len(opts) // len(LETTERS))
         size = -(-len(opts) // k)
         chunks = [opts[i:i + size] for i in range(0, len(opts), size)]
@@ -398,7 +387,6 @@ class Engine:
         s = sum(raw)
         return [v / s for v in raw], sum(len(j[0]) for j in jobs) + sum(len(j[0]) for jb, _ in planned for j in jb)
 
-    # ---------- API ----------
     def systemone(self, body):
         t0 = time.perf_counter()
         state, qs = validate(body)
@@ -412,7 +400,6 @@ class Engine:
         parts.append(self._tok(("\n" if image is not None else "") + prefix(state_text)))
         perms = self.calib["perms"]
 
-        # plan every question's readouts, then run them all against one prefill
         plans, n_state = {}, sum(len(p) for p in parts if isinstance(p, list))
         for qid, q in qs.items():
             t = q["type"]
@@ -427,7 +414,7 @@ class Engine:
         if n_state > MAX_TOKENS:
             raise _bad(["state"], f"state exceeds {MAX_TOKENS} tokens")
         widest = max((len(j[0]) for (_, _, jobs, _) in plans.values() if isinstance(jobs, list) for j in jobs), default=0)
-        if n_state + widest + 64 > self.n_ctx:  # 64: headroom for the >52-option chunk prompts
+        if n_state + widest + 64 > self.n_ctx:  # a bit of room for the big-choice chunk prompts
             raise _bad(["state"], f"state plus question exceeds this server's {self.n_ctx}-token context (restart with a larger --ctx)")
 
         flat = [j for (_, _, jobs, _) in plans.values() if isinstance(jobs, list) for j in jobs]
@@ -435,7 +422,7 @@ class Engine:
             self._prefill(parts)
             res = self._readouts(flat)
         except Exception:
-            for s in range(1, self.n_seq + 1):  # drop half-decoded question sequences
+            for s in range(1, self.n_seq + 1):
                 L.llama_memory_seq_rm(self.mem, s, -1, -1)
             raise
         used = n_state + sum(len(j[0]) for j in flat)

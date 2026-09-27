@@ -1,7 +1,7 @@
 [project]
-name = "localjev"
+name = "marquand"
 version = "0.1.0"
-description = "Local, drop-in TypeSafe Jev (System One) typed-decision server on llama.cpp"
+description = "Local drop-in for the TypeSafe Jev (System One) API, running on llama.cpp"
 requires-python = ">=3.12"
 license = "MIT"
 dependencies = ["llama-cpp-python==0.3.35"]
@@ -10,10 +10,10 @@ dependencies = ["llama-cpp-python==0.3.35"]
 test = ["pytest", "typesafe-sdk"]
 
 [project.scripts]
-jev = "jev.cli:main"
+marq = "marq.cli:main"
 
 [tool.setuptools]
-packages = ["jev"]
+packages = ["marq"]
 
 [tool.setuptools.package-data]
-jev = ["models.json"]
+marq = ["models.json"]

@@ -1,9 +1,4 @@
-"""Build bench/data/calib.jsonl: ~1.2k Jev-format questions from public decision datasets (never JevBench).
-
-Sources (HF datasets-server rows API, stdlib only): Open-Jev-v1.1 calibration split, SargeDev jev-distill-corpus-v3
-calibration split (soft targets), tasksource jev-typed-decisions validation (real NLP tasks).
-Each line: {"src", "state", "question", "target": {label: prob}}.
-"""
+# builds bench/data/calib.jsonl (~1.2k questions) from public decision datasets, never JevBench
 import json, os, random, time, urllib.error, urllib.request
 
 HERE = os.path.dirname(__file__)

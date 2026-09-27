@@ -1,15 +1,15 @@
 import os, pytest
-from jev.engine import Engine, BadRequest, choice_confidence, score_confidence
+from marq.engine import Engine, BadRequest, choice_confidence, score_confidence
 
-M = os.environ.get("JEV_TEST_MODEL", os.path.expanduser(
+M = os.environ.get("MARQ_TEST_MODEL", os.path.expanduser(
     "~/.lmstudio/models/lmstudio-community/Qwen3.5-0.8B-GGUF/Qwen3.5-0.8B-Q8_0.gguf"))
 if not os.path.exists(M):
-    pytest.skip(f"test model {M} not found; set JEV_TEST_MODEL", allow_module_level=True)
+    pytest.skip(f"test model {M} not found; set MARQ_TEST_MODEL", allow_module_level=True)
 E = Engine(M, n_ctx=8192)
 
 
 def ask(state, **qs):
-    return E.systemone({"model": "jev-latest", "state": state, "questions": qs})
+    return E.systemone({"model": "marq-latest", "state": state, "questions": qs})
 
 
 def test_confidence_formulas():
@@ -68,19 +68,19 @@ def test_prefix_reuse_same_answer():
 
 
 def test_checkpoint_restore_matches_fresh():
-    base = "Log line about the forge and the weather. " * 60  # several checkpoints deep
+    base = "Log line about the forge and the weather. " * 60  # long enough for a few checkpoints
     q = {"t": {"type": "choice", "instructions": "What was the last tick?", "criteria": {"one": None, "two": None}}}
     E.systemone({"state": base + "Tick one.", "questions": q})
     warm = E.systemone({"state": base + "Tick two.", "questions": q})
     reused = E.prefilled
     E.cached = []  # force a full prefill
     cold = E.systemone({"state": base + "Tick two.", "questions": q})
-    assert reused < E.prefilled / 2  # restored from a checkpoint / truncated prefix, not recomputed
+    assert reused < E.prefilled / 2  # it restored a checkpoint instead of redoing everything
     assert warm["answers"]["t"]["probabilities"] == pytest.approx(cold["answers"]["t"]["probabilities"], abs=2e-3)
 
 
+# plain color PNG with just the stdlib
 def _png(rgb, size=64):
-    """Solid-color PNG, stdlib only."""
     import struct, zlib
     raw = b"".join(b"\x00" + bytes(rgb) * size for _ in range(size))
     chunk = lambda t, d: struct.pack(">I", len(d)) + t + d + struct.pack(">I", zlib.crc32(t + d) & 0xFFFFFFFF)
@@ -90,10 +90,10 @@ def _png(rgb, size=64):
 
 def test_image_state():
     import base64
-    mm = os.environ.get("JEV_TEST_MMPROJ", os.path.expanduser(
+    mm = os.environ.get("MARQ_TEST_MMPROJ", os.path.expanduser(
         "~/.lmstudio/models/lmstudio-community/Qwen3.5-0.8B-GGUF/mmproj-Qwen3.5-0.8B-BF16.gguf"))
     if not os.path.exists(mm):
-        pytest.skip(f"vision projector {mm} not found; set JEV_TEST_MMPROJ")
+        pytest.skip(f"vision projector {mm} not found; set MARQ_TEST_MMPROJ")
     V = Engine(M, mmproj=mm, n_ctx=8192)
     q = {"color": {"type": "choice", "instructions": "What color is the image?",
                    "criteria": {"red": None, "green": None, "blue": None}}}
@@ -101,7 +101,7 @@ def test_image_state():
         url = "data:image/png;base64," + base64.b64encode(_png(rgb)).decode()
         r = V.systemone({"state": {"image": url, "note": "a test swatch"}, "questions": q})
         assert r["answers"]["color"]["choice"] == want
-    with pytest.raises(BadRequest):  # text-only engine refuses images
+    with pytest.raises(BadRequest):  # a text-only model says no to images
         E.systemone({"state": {"image": url}, "questions": q})
 
 
@@ -128,7 +128,7 @@ def test_failed_prefill_does_not_poison_cache():
 
 def test_state_over_loaded_context_is_422():
     with pytest.raises(BadRequest):
-        ask("word " * 12000, q={"type": "noul", "instructions": "Any words?"})  # > n_ctx 8192, < 32k limit
+        ask("word " * 12000, q={"type": "noul", "instructions": "Any words?"})  # bigger than the 8192 test context but under the 32k limit
 
 
 def test_long_text_image_field_is_just_text():

@@ -1,4 +1,4 @@
-# Local Jev design
+# Marquand design
 
 Date: 2026-09-26
 
@@ -32,7 +32,7 @@ Radeon 780M iGPU. LM Studio models in `~/.lmstudio/models`.
   - `instructions` and criteria values may be string, object, array (rendered as JSON) or null.
   - Response `{model, answers, usage: {input_tokens, output_tokens}}`.
 - `GET /v1/models` → `{models: [{name, description, release_date}]}`.
-- Errors: 422 `{"detail": [{loc, msg, type}]}`; 401 when `JEV_TOKEN` is set and the bearer
+- Errors: 422 `{"detail": [{loc, msg, type}]}`; 401 when `MARQ_TOKEN` is set and the bearer
   token differs; 503 when the engine fails.
 - Confidence uses TypeSafe's published formulas:
   choice `(max p − 1/n)/(1 − 1/n)`; score `1 − E|i − mode| / UMAD(n)`.
@@ -79,22 +79,22 @@ tiers are our own models: Qwen3.5-2B and 0.8B fine-tuned (LoRA) on Jev 1.13's ow
 jev-distill-corpus-v3 plus Open-Jev gold labels, through the engine's exact prompt, then merged and exported to
 GGUF. JevBench public is never used for training.
 
-Served aliases (`jev serve --model latest|vision|fast|instant|<path.gguf>`, one model per process):
+Served aliases (`marq serve --model latest|vision|fast|instant|<path.gguf>`, one model per process):
 `latest` 9B text-only at 64k context, `vision` 9B with its projector (16k fits), `fast` distilled 2B,
 `instant` distilled 0.8B. A fast-to-big confidence cascade was tried and dropped: it scored lower than
 `latest` alone and two resident models overcommitted VRAM.
 
 ## Interfaces
 
-- `jev serve [--model] [--port 8765] [--ctx]`: on-demand server, stdlib `http.server`.
-- `jev ask STATE --choice name=a,b,c --noul name="question" --score name=lo,mid,hi [--json]`.
-- `godot/jev.gd`, minimal HTTPRequest helper for Godot 4 NPC decisions.
+- `marq serve [--model] [--port 8765] [--ctx]`: on-demand server, stdlib `http.server`.
+- `marq ask STATE --choice name=a,b,c --noul name="question" --score name=lo,mid,hi [--json]`.
+- `godot/marq.gd`, minimal HTTPRequest helper for Godot 4 NPC decisions.
 
 ## Success criteria
 
 - JevBench public accuracy within 3 points of Jev 1.13.
-- p50 ≤100 ms warm for ≤500-token state × ≤5 questions × ≤10 options on the RX 7700S (`jev-fast`
-  or `jev-latest`, whichever meets the accuracy bar; both reported).
+- p50 ≤100 ms warm for ≤500-token state × ≤5 questions × ≤10 options on the RX 7700S (`marq-fast`
+  or `marq-latest`, whichever meets the accuracy bar; both reported).
 - Zero malformed responses; official Python SDK round-trips.
 - 32k-token state accepted.
 
@@ -106,5 +106,5 @@ the error shapes, a >52-option choice, a 255-option choice, prefix reuse and the
 
 ## Out of scope
 
-Billing, rate limiting, multi-model hot swapping, remote exposure (bind is 127.0.0.1; `JEV_TOKEN`
+Billing, rate limiting, multi-model hot swapping, remote exposure (bind is 127.0.0.1; `MARQ_TOKEN`
 exists for anyone who changes that), streaming (Jev has none).

@@ -1,18 +1,12 @@
-"""Fit per-model calibration on bench/data/calib.jsonl (never JevBench) and write it into jev/models.json.
-
-  .venv/bin/python bench/calib.py MODEL.gguf [--alias latest|fast] [--limit N]
-
-Collects raw letter logits for both letterings once, then fits (numpy, CPU):
-  bias[n]  letter-position prior per option count (2..10), from both letterings so label priors cancel
-  T        temperature for choice/score;  noul_T, noul_b  logistic recalibration of yes/no
-and reports held-out NLL/accuracy for perms=1 vs perms=2 so the cheaper setting is chosen only when it holds up.
-"""
+# fits a model's calibration (temperature, letter-position bias, yes/no scaling) on bench/data/calib.jsonl,
+# never JevBench, and writes it into marq/models.json with --alias
+#   .venv/bin/python bench/calib.py MODEL.gguf --alias latest
 import argparse, json, os, sys
 import numpy as np
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from jev.engine import Engine  # noqa: E402
-from jev.thermal import guard  # noqa: E402
+from marq.engine import Engine  # noqa: E402
+from marq.thermal import guard  # noqa: E402
 
 HERE = os.path.dirname(__file__)
 NMAX = 10
@@ -61,7 +55,6 @@ def nll(items, T, bias, perms, noul=(1.0, 0.0)):
 
 
 def fit(train, perms):
-    """Coordinate descent on held-in NLL: T, then per-n biases, then noul (T, b)."""
     T, bias, noul = 1.0, {}, (1.0, 0.0)
     for _ in range(3):
         T = min(np.geomspace(0.3, 5, 40), key=lambda t: nll([i for i in train if i["type"] != "noul"], t, bias, perms)[0])
@@ -106,12 +99,12 @@ def main():
         print(f"perms={perms}: held-out NLL/acc raw {base[0]:.3f}/{base[1]:.3f} -> fitted {after[0]:.3f}/{after[1]:.3f}  T={T:.2f} noul={noul}", flush=True)
         cand = {"T": round(float(T), 3), "noul_T": round(float(noul[0]), 3), "noul_b": round(float(noul[1]), 3), "perms": perms,
                 "bias": {str(n): [round(float(v), 3) for v in b] for n, b in bias.items()}}
-        # perms=1 is half the tokens; take it unless perms=2 is clearly better (>1.5 pts held-out accuracy)
+        # one lettering is half the tokens, so two only wins if it's clearly better (1.5+ points)
         if best is None or after[1] > best[1] + 0.015:
             best = (cand, after[1])
     print("chosen", json.dumps(best[0]))
     if a.alias:
-        path = os.path.join(HERE, "..", "jev", "models.json")
+        path = os.path.join(HERE, "..", "marq", "models.json")
         models = json.load(open(path))
         models[a.alias]["calib"] = best[0]
         json.dump(models, open(path, "w"), indent=2)

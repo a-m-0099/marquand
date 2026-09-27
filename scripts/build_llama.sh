@@ -1,5 +1,5 @@
 #!/bin/sh
-# Builds llama-cpp-python against Vulkan (RX 7700S) into .venv. Vulkan/SPIR-V headers are vendored; no sudo needed.
+# builds llama-cpp-python with Vulkan into .venv - it grabs the headers itself so no sudo needed
 set -e
 cd "$(dirname "$0")/.."
 SDK=$PWD/vendor/sdk

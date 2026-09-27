@@ -1,12 +1,12 @@
-"""Local Jev from the shell: jev serve | jev ask."""
+# marq serve | marq ask
 import argparse, json, os, sys, urllib.error, urllib.request
 
 HERE = os.path.dirname(__file__)
 ROOT = os.path.dirname(os.path.abspath(HERE))
 
 
+# relative paths in models.json are from the repo root
 def _path(p):
-    """models.json paths: ~ expands, relative paths are relative to the repo root."""
     p = os.path.expanduser(p)
     return p if os.path.isabs(p) else os.path.join(ROOT, p)
 
@@ -17,11 +17,10 @@ def load_models():
 
 
 def resolve(model):
-    """Alias from models.json (latest | vision | fast | instant) or a .gguf path -> spec dict."""
     models = load_models()
-    alias = model.removeprefix("jev-")
+    alias = model.removeprefix("marq-").removeprefix("jev-")
     if alias in models:
-        return {**models[alias], "name": f"jev-{alias}"}
+        return {**models[alias], "name": f"marq-{alias}"}
     for m in models.values():  # a known path still gets its calibration
         if "path" in m and _path(m["path"]) == os.path.abspath(os.path.expanduser(model)):
             return dict(m)
@@ -67,7 +66,7 @@ def show(out):
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(prog="jev")
+    ap = argparse.ArgumentParser(prog="marq")
     sub = ap.add_subparsers(dest="cmd", required=True)
     s = sub.add_parser("serve", help="run the /v1/systemone server")
     s.add_argument("--model", default="latest", help="latest | vision | fast | instant | path/to/model.gguf")
@@ -81,8 +80,8 @@ def main(argv=None):
     a.add_argument("--noul", action="append", metavar="NAME=question")
     a.add_argument("--score", action="append", metavar="NAME=low,mid,high")
     a.add_argument("--ask", action="append", default=[], metavar="NAME=instructions", help="instructions for a choice/score")
-    a.add_argument("--url", default=os.environ.get("JEV_URL", "http://127.0.0.1:8765"))
-    a.add_argument("--token", default=os.environ.get("JEV_TOKEN", ""))
+    a.add_argument("--url", default=os.environ.get("MARQ_URL", "http://127.0.0.1:8765"))
+    a.add_argument("--token", default=os.environ.get("MARQ_TOKEN", ""))
     a.add_argument("--model", default="latest")
     a.add_argument("--mmproj")
     a.add_argument("--ctx", type=int, default=16384)
@@ -91,7 +90,7 @@ def main(argv=None):
 
     if args.cmd == "serve":
         from .server import serve
-        serve(engine_for(args), args.host, args.port, os.environ.get("JEV_TOKEN", ""))
+        serve(engine_for(args), args.host, args.port, os.environ.get("MARQ_TOKEN", ""))
         return
 
     args.instructions = dict(x.split("=", 1) for x in args.ask)
@@ -103,7 +102,7 @@ def main(argv=None):
             state = json.loads(state)
         except ValueError:
             pass
-    body = {"model": "jev-latest", "state": state, "questions": questions(args)}
+    body = {"model": "marq-latest", "state": state, "questions": questions(args)}
     req = urllib.request.Request(args.url.rstrip("/") + "/v1/systemone", json.dumps(body).encode(),
                                  {"Content-Type": "application/json", **({"Authorization": f"Bearer {args.token}"} if args.token else {})})
     try:
@@ -111,7 +110,7 @@ def main(argv=None):
             out = json.loads(r.read())
     except urllib.error.HTTPError as e:
         sys.exit(f"{e.code}: {e.read().decode()}")
-    except OSError:  # no server running: answer in-process
+    except OSError:  # no server running, so just load the model here
         out = engine_for(args).systemone(body)
     print(json.dumps(out, indent=2)) if args.json else show(out)
 

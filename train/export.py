@@ -1,10 +1,5 @@
-"""Merge a LoRA run into the original Qwen3.5 checkpoint one tensor at a time and convert to GGUF.
-
-  ../.venv-train/bin/python export.py --base base/Qwen3.5-4B --adapter runs/mid4b --out ../models/jev-mid-4b --outtype q8_0
-
-Streams: never more than ~1 GB of weights in RAM, so a 4B model exports on a 14 GB laptop. Vision and MTP tensors are
-copied untouched, so the base model's mmproj still applies.
-"""
+# merges a LoRA run into the base model one tensor at a time (so a 4B fits in 14 GB of RAM) and converts it to GGUF
+#   ../.venv-train/bin/python export.py --base base/Qwen3.5-2B --adapter runs/fast2b --out ../models/marq-fast-2b --outtype q8_0
 import argparse, json, os, shutil, subprocess, sys
 
 import torch
@@ -16,13 +11,12 @@ FLUSH_BYTES = 1 << 30
 
 
 def lora_deltas(adapter):
-    """{checkpoint tensor name: (A, B)} and the LoRA scale, from a PEFT adapter directory."""
     cfg = json.load(open(os.path.join(adapter, "adapter_config.json")))
     f = safe_open(os.path.join(adapter, "adapter_model.safetensors"), "pt")
     out = {}
     for k in f.keys():
         if k.endswith(".lora_A.weight"):
-            mod = k[: -len(".lora_A.weight")].removeprefix("base_model.model.")  # model.layers.3.mlp.up_proj
+            mod = k[: -len(".lora_A.weight")].removeprefix("base_model.model.")
             name = mod.replace("model.", "model.language_model.", 1) + ".weight"
             out[name] = (f.get_tensor(k), f.get_tensor(k.replace("lora_A", "lora_B")))
     return out, cfg["lora_alpha"] / cfg["r"]

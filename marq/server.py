@@ -1,4 +1,4 @@
-"""Drop-in /v1/systemone HTTP server (stdlib). Point TYPESAFE_BASE_URL at it."""
+# drop-in /v1/systemone server, so the official SDK works if you point TYPESAFE_BASE_URL at it
 import json, sys, threading, time, traceback
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
@@ -6,10 +6,10 @@ from .engine import BadRequest
 
 
 def serve(engine, host="127.0.0.1", port=8765, token=""):
-    # every request is answered by the one loaded model, whatever `model` it names
+    # the one loaded model answers everything, and jev-latest stays listed since the SDK sends it by default
     models = {"models": [{"name": n, "description": f"Local System One model {engine.name}, {engine.n_ctx}-token context.",
                           "release_date": "2026-09-26"} for n in dict.fromkeys(["jev-latest", engine.name])]}
-    lock = threading.Lock()  # ponytail: one engine, requests serialized; batch across requests if NPC fan-in needs throughput
+    lock = threading.Lock()  # one engine, so requests take turns
 
     class H(BaseHTTPRequestHandler):
         protocol_version = "HTTP/1.1"
@@ -68,5 +68,5 @@ def serve(engine, host="127.0.0.1", port=8765, token=""):
 
     ThreadingHTTPServer.daemon_threads = True
     httpd = ThreadingHTTPServer((host, port), H)
-    print(f"jev: {engine.name} on http://{host}:{port}/v1/systemone (ctx {engine.n_ctx})", file=sys.stderr, flush=True)
+    print(f"marq: {engine.name} on http://{host}:{port}/v1/systemone (ctx {engine.n_ctx})", file=sys.stderr, flush=True)
     httpd.serve_forever()

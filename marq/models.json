@@ -101,14 +101,14 @@
     "mmproj": "~/.lmstudio/models/lmstudio-community/Qwen3.5-9B-GGUF/mmproj-Qwen3.5-9B-BF16.gguf"
   },
   "fast": {
-    "path": "models/jev-fast-2b-Q8_0.gguf",
+    "path": "models/marq-fast-2b-Q8_0.gguf",
     "mmproj": "models/mmproj-Qwen3.5-2B-F16.gguf",
     "calib": {
       "perms": 1
     }
   },
   "instant": {
-    "path": "models/jev-fast-0.8b-Q8_0.gguf",
+    "path": "models/marq-instant-0.8b-Q8_0.gguf",
     "mmproj": "~/.lmstudio/models/lmstudio-community/Qwen3.5-0.8B-GGUF/mmproj-Qwen3.5-0.8B-BF16.gguf",
     "calib": {
       "perms": 1

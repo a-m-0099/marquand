@@ -4,4 +4,4 @@ config_version=5
 run/main_scene="res://main.tscn"
 
 [autoload]
-Jev="*res://jev.gd"
+Marq="*res://marq.gd"

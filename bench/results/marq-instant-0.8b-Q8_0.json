@@ -1,5 +1,5 @@
 {
- "model": "jev-fast-0.8b-Q8_0",
+ "model": "marq-instant-0.8b-Q8_0",
  "calib": {
   "T": 1.0,
   "noul_T": 1.0,

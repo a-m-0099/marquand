@@ -1,4 +1,4 @@
-"""Prompt text shared by the engine and the training scripts, so both see byte-identical prompts."""
+# the engine and train/distill.py both build prompts from here, so the trained models see the exact same text
 import json
 
 LETTERS = [chr(65 + i) for i in range(26)] + [chr(97 + i) for i in range(26)]
@@ -13,7 +13,6 @@ def prefix(state_text):
 
 
 def options(q):
-    """(instructions, [(key, description)]) for a validated question; noul is [true, false]."""
     t, instr, crit = q["type"], text(q.get("instructions")), q.get("criteria")
     if t == "choice":
         return instr, [(str(k), text(v)) for k, v in crit.items()]

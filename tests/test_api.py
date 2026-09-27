@@ -4,12 +4,12 @@ import pytest
 
 PORT = 8799
 URL = f"http://127.0.0.1:{PORT}"
-MODEL = os.environ.get("JEV_TEST_MODEL", os.path.expanduser(
+MODEL = os.environ.get("MARQ_TEST_MODEL", os.path.expanduser(
     "~/.lmstudio/models/lmstudio-community/Qwen3.5-0.8B-GGUF/Qwen3.5-0.8B-Q8_0.gguf"))
 
 
 if not os.path.exists(MODEL):
-    pytest.skip(f"test model {MODEL} not found; set JEV_TEST_MODEL", allow_module_level=True)
+    pytest.skip(f"test model {MODEL} not found; set MARQ_TEST_MODEL", allow_module_level=True)
 
 
 def call(path, body=None, token=None):
@@ -29,8 +29,8 @@ def post(body, token=None):
 
 @pytest.fixture(scope="module", autouse=True)
 def server():
-    p = subprocess.Popen([sys.executable, "-m", "jev.cli", "serve", "--model", MODEL, "--port", str(PORT), "--ctx", "8192"],
-                         env={**os.environ, "JEV_TOKEN": "sekret"}, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    p = subprocess.Popen([sys.executable, "-m", "marq.cli", "serve", "--model", MODEL, "--port", str(PORT), "--ctx", "8192"],
+                         env={**os.environ, "MARQ_TOKEN": "sekret"}, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     for _ in range(600):
         try:
             urllib.request.urlopen(URL + "/health", timeout=1)
@@ -49,7 +49,7 @@ def test_auth():
 
 def test_models():
     code, body = call("/v1/models", token="sekret")
-    assert code == 200 and body["models"][0]["name"] == "jev-latest"
+    assert code == 200 and body["models"][0]["name"] == "jev-latest"  # the SDK asks for this by default
 
 
 def test_422_shape():
@@ -82,7 +82,7 @@ def test_sdk_roundtrip():
 
 
 def test_cli_ask():
-    out = subprocess.run([sys.executable, "-m", "jev.cli", "ask", "--url", URL, "--token", "sekret", "--json",
+    out = subprocess.run([sys.executable, "-m", "marq.cli", "ask", "--url", URL, "--token", "sekret", "--json",
                           "I want to cancel my order", "--choice", "intent=cancel,track,refund", "--noul", "polite=Is it polite?",
                           "--score", "urgency=low,medium,high"], capture_output=True, text=True, check=True).stdout
     a = json.loads(out)["answers"]

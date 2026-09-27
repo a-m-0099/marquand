@@ -1,18 +1,15 @@
-"""JevBench public (231 items) + latency microbench for one local model.
-
-  .venv/bin/python bench/run.py MODEL.gguf [--perms 2] [--T 1.0] [--latency] [--limit N]
-Writes bench/results/<model>[-tag].json and prints accuracy per tier next to Jev 1.13.
-"""
+# JevBench public (231 items) plus an NPC-style latency test for one model
+#   .venv/bin/python bench/run.py latest --calibrated --latency
 import argparse, json, os, statistics, sys, time
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from jev.engine import Engine  # noqa: E402
-from jev.thermal import guard  # noqa: E402
+from marq.engine import Engine  # noqa: E402
+from marq.thermal import guard  # noqa: E402
 
 HERE = os.path.dirname(__file__)
 PUB = os.path.join(HERE, "jevbench", "datasets", "public")
 TIERS = {"original": "standard", "easy": "easy", "hard": "hard"}
-JEV = {"easy": 48, "standard": 71, "hard": 81, "total": 200}  # Jev 1.13.0 public items correct (JevBench v1.3 per-task)
+JEV = {"easy": 48, "standard": 71, "hard": 81, "total": 200}  # what Jev 1.13 gets on the same items
 
 
 def items(limit=None):
@@ -40,7 +37,7 @@ def run(engine, rows):
     for r in rows:
         guard()
         t0 = time.perf_counter()
-        out = engine.systemone({"model": "jev-latest", "state": r["state"], "questions": {"q": r["question"]}})
+        out = engine.systemone({"model": "marq-latest", "state": r["state"], "questions": {"q": r["question"]}})
         ms = (time.perf_counter() - t0) * 1000
         p = probs_of(out["answers"]["q"])
         pred = argmax(p)
@@ -68,7 +65,7 @@ def summarize(res):
 
 
 def latency(engine, n=40):
-    """Realtime shape: ~300-token state x 5 questions x 6 options, state changes every call."""
+    # ~200 token state, 5 questions, and the state changes every call like a game tick
     base = ("NPC Mara, blacksmith. Hunger 72/100, energy 35/100, gold 14. Time 18:40, raining. "
             "Nearby: tavern (open, 40 m), forge (her own, 5 m), market (closing, 120 m), home (200 m). "
             "Recent: finished two swords, argued with guard Tomas about taxes, customer waiting at forge. ") * 3
@@ -102,10 +99,10 @@ def main():
     ap.add_argument("--limit", type=int)
     ap.add_argument("--latency", action="store_true")
     ap.add_argument("--tag", default="")
-    ap.add_argument("--calibrated", action="store_true", help="MODEL is a jev/models.json alias; use its calibration")
+    ap.add_argument("--calibrated", action="store_true", help="MODEL is a marq/models.json alias; use its calibration")
     a = ap.parse_args()
-    if a.calibrated:  # alias from jev/models.json, with its calibration
-        from jev.cli import engine_for
+    if a.calibrated:
+        from marq.cli import engine_for
         e = engine_for(argparse.Namespace(model=a.model, mmproj=a.mmproj, ctx=a.ctx))
     else:
         e = Engine(os.path.expanduser(a.model), mmproj=a.mmproj, n_ctx=a.ctx, calib={"perms": a.perms, "T": a.T})
