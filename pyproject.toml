@@ -1,0 +1,19 @@
+[project]
+name = "localjev"
+version = "0.1.0"
+description = "Local, drop-in TypeSafe Jev (System One) typed-decision server on llama.cpp"
+requires-python = ">=3.12"
+license = "MIT"
+dependencies = ["llama-cpp-python==0.3.35"]
+
+[project.optional-dependencies]
+test = ["pytest", "typesafe-sdk"]
+
+[project.scripts]
+jev = "jev.cli:main"
+
+[tool.setuptools]
+packages = ["jev"]
+
+[tool.setuptools.package-data]
+jev = ["models.json"]

@@ -1,0 +1,18 @@
+# environments and build inputs
+.venv/
+.venv-train/
+vendor/
+__pycache__/
+.pytest_cache/
+.superpowers/
+# large or re-downloadable data (see README)
+bench/jevbench/
+train/base/
+train/data/
+train/runs/
+train/logs/
+train/llamacpp/
+models/
+# rebuilt by bench/build_calib.py (source datasets have their own licenses)
+bench/data/
+README_GUIDE.md

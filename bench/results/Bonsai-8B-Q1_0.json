@@ -1,0 +1,3639 @@
+{
+ "model": "Bonsai-8B-Q1_0",
+ "perms": 2,
+ "T": 1.0,
+ "summary": {
+  "easy": 48,
+  "standard": 55,
+  "hard": 46,
+  "total": 149,
+  "n": 231,
+  "brier": 0.5564576093506494,
+  "ece": 0.19608181818181822,
+  "p50_ms": 292.95082500902936,
+  "p95_ms": 2685.597115996643
+ },
+ "rows": [
+  {
+   "id": "original-policy-01-0",
+   "tier": "standard",
+   "family": "policy",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.0001,
+    "no": 0.9999
+   },
+   "ms": 520.6677349924576,
+   "tokens": 176
+  },
+  {
+   "id": "original-policy-01-1",
+   "tier": "standard",
+   "family": "policy",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.0002,
+    "no": 0.9998
+   },
+   "ms": 292.95082500902936,
+   "tokens": 179
+  },
+  {
+   "id": "original-policy-02-0",
+   "tier": "standard",
+   "family": "policy",
+   "pred": "no",
+   "gold": "yes",
+   "ok": false,
+   "p": {
+    "yes": 0.0292,
+    "no": 0.9708
+   },
+   "ms": 273.40599699527957,
+   "tokens": 165
+  },
+  {
+   "id": "original-policy-02-1",
+   "tier": "standard",
+   "family": "policy",
+   "pred": "no",
+   "gold": "yes",
+   "ok": false,
+   "p": {
+    "yes": 0.0019,
+    "no": 0.9981
+   },
+   "ms": 254.81446899357252,
+   "tokens": 164
+  },
+  {
+   "id": "original-policy-03-0",
+   "tier": "standard",
+   "family": "policy",
+   "pred": "no",
+   "gold": "yes",
+   "ok": false,
+   "p": {
+    "yes": 0.0272,
+    "no": 0.9728
+   },
+   "ms": 251.5602939965902,
+   "tokens": 167
+  },
+  {
+   "id": "original-policy-03-1",
+   "tier": "standard",
+   "family": "policy",
+   "pred": "no",
+   "gold": "yes",
+   "ok": false,
+   "p": {
+    "yes": 0.0009,
+    "no": 0.9991
+   },
+   "ms": 247.53285299811978,
+   "tokens": 166
+  },
+  {
+   "id": "original-policy-04-0",
+   "tier": "standard",
+   "family": "policy",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.141,
+    "no": 0.859
+   },
+   "ms": 244.61602700466756,
+   "tokens": 173
+  },
+  {
+   "id": "original-policy-04-1",
+   "tier": "standard",
+   "family": "policy",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.0005,
+    "no": 0.9995
+   },
+   "ms": 242.18187799851876,
+   "tokens": 170
+  },
+  {
+   "id": "original-policy-05-0",
+   "tier": "standard",
+   "family": "policy",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.0187,
+    "no": 0.9813
+   },
+   "ms": 240.20123000082094,
+   "tokens": 177
+  },
+  {
+   "id": "original-policy-05-1",
+   "tier": "standard",
+   "family": "policy",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.0008,
+    "no": 0.9992
+   },
+   "ms": 236.1817630007863,
+   "tokens": 169
+  },
+  {
+   "id": "original-policy-06-0",
+   "tier": "standard",
+   "family": "policy",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.5903,
+    "no": 0.40969999999999995
+   },
+   "ms": 254.55161998979747,
+   "tokens": 179
+  },
+  {
+   "id": "original-policy-06-1",
+   "tier": "standard",
+   "family": "policy",
+   "pred": "no",
+   "gold": "yes",
+   "ok": false,
+   "p": {
+    "yes": 0.0991,
+    "no": 0.9009
+   },
+   "ms": 234.05087999708485,
+   "tokens": 169
+  },
+  {
+   "id": "original-intent-01-0",
+   "tier": "standard",
+   "family": "intent",
+   "pred": "refund",
+   "gold": "refund",
+   "ok": true,
+   "p": {
+    "cancel": 0.0,
+    "change_address": 0.0001,
+    "other": 0.0088,
+    "refund": 0.9911,
+    "status": 0.0
+   },
+   "ms": 237.49446398869622,
+   "tokens": 189
+  },
+  {
+   "id": "original-intent-01-1",
+   "tier": "standard",
+   "family": "intent",
+   "pred": "refund",
+   "gold": "refund",
+   "ok": true,
+   "p": {
+    "cancel": 0.0,
+    "change_address": 0.0001,
+    "other": 0.0339,
+    "refund": 0.9659,
+    "status": 0.0
+   },
+   "ms": 237.46954700618517,
+   "tokens": 190
+  },
+  {
+   "id": "original-intent-02-0",
+   "tier": "standard",
+   "family": "intent",
+   "pred": "other",
+   "gold": "status",
+   "ok": false,
+   "p": {
+    "cancel": 0.0,
+    "change_address": 0.0002,
+    "other": 0.9476,
+    "refund": 0.0001,
+    "status": 0.0522
+   },
+   "ms": 237.56982700433582,
+   "tokens": 190
+  },
+  {
+   "id": "original-intent-02-1",
+   "tier": "standard",
+   "family": "intent",
+   "pred": "status",
+   "gold": "status",
+   "ok": true,
+   "p": {
+    "cancel": 0.0,
+    "change_address": 0.0,
+    "other": 0.4996,
+    "refund": 0.0001,
+    "status": 0.5003
+   },
+   "ms": 237.38586800755002,
+   "tokens": 189
+  },
+  {
+   "id": "original-intent-03-0",
+   "tier": "standard",
+   "family": "intent",
+   "pred": "change_address",
+   "gold": "change_address",
+   "ok": true,
+   "p": {
+    "cancel": 0.0001,
+    "change_address": 0.72,
+    "other": 0.2792,
+    "refund": 0.0003,
+    "status": 0.0004
+   },
+   "ms": 238.47717900935095,
+   "tokens": 191
+  },
+  {
+   "id": "original-intent-03-1",
+   "tier": "standard",
+   "family": "intent",
+   "pred": "change_address",
+   "gold": "change_address",
+   "ok": true,
+   "p": {
+    "cancel": 0.0,
+    "change_address": 0.8176,
+    "other": 0.1823,
+    "refund": 0.0,
+    "status": 0.0
+   },
+   "ms": 237.39556600048672,
+   "tokens": 189
+  },
+  {
+   "id": "original-intent-04-0",
+   "tier": "standard",
+   "family": "intent",
+   "pred": "cancel",
+   "gold": "cancel",
+   "ok": true,
+   "p": {
+    "cancel": 0.8066,
+    "change_address": 0.0001,
+    "other": 0.193,
+    "refund": 0.0002,
+    "status": 0.0
+   },
+   "ms": 238.2597570103826,
+   "tokens": 194
+  },
+  {
+   "id": "original-intent-04-1",
+   "tier": "standard",
+   "family": "intent",
+   "pred": "cancel",
+   "gold": "cancel",
+   "ok": true,
+   "p": {
+    "cancel": 0.6277,
+    "change_address": 0.0002,
+    "other": 0.3717,
+    "refund": 0.0003,
+    "status": 0.0
+   },
+   "ms": 237.00190900126472,
+   "tokens": 189
+  },
+  {
+   "id": "original-intent-05-0",
+   "tier": "standard",
+   "family": "intent",
+   "pred": "refund",
+   "gold": "other",
+   "ok": false,
+   "p": {
+    "cancel": 0.0,
+    "change_address": 0.0001,
+    "other": 0.3656,
+    "refund": 0.6342,
+    "status": 0.0001
+   },
+   "ms": 238.5107719892403,
+   "tokens": 189
+  },
+  {
+   "id": "original-intent-05-1",
+   "tier": "standard",
+   "family": "intent",
+   "pred": "other",
+   "gold": "other",
+   "ok": true,
+   "p": {
+    "cancel": 0.0001,
+    "change_address": 0.0001,
+    "other": 0.5737,
+    "refund": 0.4261,
+    "status": 0.0
+   },
+   "ms": 237.02305999177042,
+   "tokens": 188
+  },
+  {
+   "id": "original-intent-06-0",
+   "tier": "standard",
+   "family": "intent",
+   "pred": "status",
+   "gold": "status",
+   "ok": true,
+   "p": {
+    "cancel": 0.0005,
+    "change_address": 0.0015,
+    "other": 0.2064,
+    "refund": 0.0006,
+    "status": 0.791
+   },
+   "ms": 236.7033629998332,
+   "tokens": 187
+  },
+  {
+   "id": "original-intent-06-1",
+   "tier": "standard",
+   "family": "intent",
+   "pred": "other",
+   "gold": "status",
+   "ok": false,
+   "p": {
+    "cancel": 0.0,
+    "change_address": 0.0005,
+    "other": 0.571,
+    "refund": 0.0005,
+    "status": 0.4279
+   },
+   "ms": 237.97599799581803,
+   "tokens": 192
+  },
+  {
+   "id": "original-ordinal-01-0",
+   "tier": "standard",
+   "family": "ordinal",
+   "pred": "1",
+   "gold": "0",
+   "ok": false,
+   "p": {
+    "0": 0.317,
+    "1": 0.5635,
+    "2": 0.1195,
+    "3": 0.0
+   },
+   "ms": 244.47216499538627,
+   "tokens": 233
+  },
+  {
+   "id": "original-ordinal-01-1",
+   "tier": "standard",
+   "family": "ordinal",
+   "pred": "0",
+   "gold": "0",
+   "ok": true,
+   "p": {
+    "0": 0.9918,
+    "1": 0.0076,
+    "2": 0.0006,
+    "3": 0.0
+   },
+   "ms": 245.6732330028899,
+   "tokens": 235
+  },
+  {
+   "id": "original-ordinal-02-0",
+   "tier": "standard",
+   "family": "ordinal",
+   "pred": "1",
+   "gold": "1",
+   "ok": true,
+   "p": {
+    "0": 0.0088,
+    "1": 0.664,
+    "2": 0.3271,
+    "3": 0.0
+   },
+   "ms": 244.6643290022621,
+   "tokens": 237
+  },
+  {
+   "id": "original-ordinal-02-1",
+   "tier": "standard",
+   "family": "ordinal",
+   "pred": "1",
+   "gold": "1",
+   "ok": true,
+   "p": {
+    "0": 0.0862,
+    "1": 0.7151,
+    "2": 0.1986,
+    "3": 0.0
+   },
+   "ms": 245.6711999984691,
+   "tokens": 238
+  },
+  {
+   "id": "original-ordinal-03-0",
+   "tier": "standard",
+   "family": "ordinal",
+   "pred": "2",
+   "gold": "2",
+   "ok": true,
+   "p": {
+    "0": 0.0514,
+    "1": 0.2159,
+    "2": 0.7326,
+    "3": 0.0001
+   },
+   "ms": 244.15029400552157,
+   "tokens": 234
+  },
+  {
+   "id": "original-ordinal-03-1",
+   "tier": "standard",
+   "family": "ordinal",
+   "pred": "2",
+   "gold": "2",
+   "ok": true,
+   "p": {
+    "0": 0.0014,
+    "1": 0.3463,
+    "2": 0.6522,
+    "3": 0.0001
+   },
+   "ms": 245.79962299321778,
+   "tokens": 236
+  },
+  {
+   "id": "original-ordinal-04-0",
+   "tier": "standard",
+   "family": "ordinal",
+   "pred": "3",
+   "gold": "3",
+   "ok": true,
+   "p": {
+    "0": 0.0,
+    "1": 0.0005,
+    "2": 0.0007,
+    "3": 0.9988
+   },
+   "ms": 245.40097698627505,
+   "tokens": 236
+  },
+  {
+   "id": "original-ordinal-04-1",
+   "tier": "standard",
+   "family": "ordinal",
+   "pred": "3",
+   "gold": "3",
+   "ok": true,
+   "p": {
+    "0": 0.0,
+    "1": 0.0008,
+    "2": 0.0016,
+    "3": 0.9976
+   },
+   "ms": 245.55833599879406,
+   "tokens": 235
+  },
+  {
+   "id": "original-ordinal-05-0",
+   "tier": "standard",
+   "family": "ordinal",
+   "pred": "2",
+   "gold": "0",
+   "ok": false,
+   "p": {
+    "0": 0.4467,
+    "1": 0.0554,
+    "2": 0.4979,
+    "3": 0.0001
+   },
+   "ms": 245.1501910109073,
+   "tokens": 239
+  },
+  {
+   "id": "original-ordinal-05-1",
+   "tier": "standard",
+   "family": "ordinal",
+   "pred": "0",
+   "gold": "0",
+   "ok": true,
+   "p": {
+    "0": 0.4447,
+    "1": 0.1955,
+    "2": 0.3598,
+    "3": 0.0001
+   },
+   "ms": 245.61206799990032,
+   "tokens": 238
+  },
+  {
+   "id": "original-ordinal-06-0",
+   "tier": "standard",
+   "family": "ordinal",
+   "pred": "2",
+   "gold": "2",
+   "ok": true,
+   "p": {
+    "0": 0.0118,
+    "1": 0.117,
+    "2": 0.8711,
+    "3": 0.0
+   },
+   "ms": 245.2733249956509,
+   "tokens": 239
+  },
+  {
+   "id": "original-ordinal-06-1",
+   "tier": "standard",
+   "family": "ordinal",
+   "pred": "2",
+   "gold": "2",
+   "ok": true,
+   "p": {
+    "0": 0.0,
+    "1": 0.0009,
+    "2": 0.9991,
+    "3": 0.0
+   },
+   "ms": 246.40080399694853,
+   "tokens": 246
+  },
+  {
+   "id": "original-extraction-01-0",
+   "tier": "standard",
+   "family": "extraction",
+   "pred": "pickup",
+   "gold": "pickup",
+   "ok": true,
+   "p": {
+    "courier": 0.0008,
+    "pickup": 0.5305,
+    "post": 0.0014,
+    "unknown": 0.4673
+   },
+   "ms": 234.26672899222467,
+   "tokens": 168
+  },
+  {
+   "id": "original-extraction-01-1",
+   "tier": "standard",
+   "family": "extraction",
+   "pred": "pickup",
+   "gold": "pickup",
+   "ok": true,
+   "p": {
+    "courier": 0.0001,
+    "pickup": 0.961,
+    "post": 0.001,
+    "unknown": 0.0378
+   },
+   "ms": 235.31037900829688,
+   "tokens": 170
+  },
+  {
+   "id": "original-extraction-02-0",
+   "tier": "standard",
+   "family": "extraction",
+   "pred": "unknown",
+   "gold": "unknown",
+   "ok": true,
+   "p": {
+    "courier": 0.0,
+    "pickup": 0.0009,
+    "post": 0.0037,
+    "unknown": 0.9954
+   },
+   "ms": 235.6097379961284,
+   "tokens": 171
+  },
+  {
+   "id": "original-extraction-02-1",
+   "tier": "standard",
+   "family": "extraction",
+   "pred": "unknown",
+   "gold": "unknown",
+   "ok": true,
+   "p": {
+    "courier": 0.0,
+    "pickup": 0.0002,
+    "post": 0.0004,
+    "unknown": 0.9994
+   },
+   "ms": 235.14097800944,
+   "tokens": 170
+  },
+  {
+   "id": "original-extraction-03-0",
+   "tier": "standard",
+   "family": "extraction",
+   "pred": "unknown",
+   "gold": "courier",
+   "ok": false,
+   "p": {
+    "courier": 0.0452,
+    "pickup": 0.4482,
+    "post": 0.007,
+    "unknown": 0.4997
+   },
+   "ms": 235.1148490124615,
+   "tokens": 174
+  },
+  {
+   "id": "original-extraction-03-1",
+   "tier": "standard",
+   "family": "extraction",
+   "pred": "courier",
+   "gold": "courier",
+   "ok": true,
+   "p": {
+    "courier": 0.8936,
+    "pickup": 0.0023,
+    "post": 0.0013,
+    "unknown": 0.1029
+   },
+   "ms": 235.89459799404722,
+   "tokens": 173
+  },
+  {
+   "id": "original-extraction-04-0",
+   "tier": "standard",
+   "family": "extraction",
+   "pred": "post",
+   "gold": "post",
+   "ok": true,
+   "p": {
+    "courier": 0.0,
+    "pickup": 0.0006,
+    "post": 0.9991,
+    "unknown": 0.0003
+   },
+   "ms": 235.80171199864708,
+   "tokens": 171
+  },
+  {
+   "id": "original-extraction-04-1",
+   "tier": "standard",
+   "family": "extraction",
+   "pred": "post",
+   "gold": "post",
+   "ok": true,
+   "p": {
+    "courier": 0.0002,
+    "pickup": 0.0073,
+    "post": 0.9909,
+    "unknown": 0.0016
+   },
+   "ms": 234.45914500916842,
+   "tokens": 168
+  },
+  {
+   "id": "original-extraction-05-0",
+   "tier": "standard",
+   "family": "extraction",
+   "pred": "unknown",
+   "gold": "unknown",
+   "ok": true,
+   "p": {
+    "courier": 0.0,
+    "pickup": 0.0001,
+    "post": 0.0001,
+    "unknown": 0.9998
+   },
+   "ms": 235.5384429974947,
+   "tokens": 171
+  },
+  {
+   "id": "original-extraction-05-1",
+   "tier": "standard",
+   "family": "extraction",
+   "pred": "unknown",
+   "gold": "unknown",
+   "ok": true,
+   "p": {
+    "courier": 0.0089,
+    "pickup": 0.0014,
+    "post": 0.001,
+    "unknown": 0.9887
+   },
+   "ms": 234.23148300207686,
+   "tokens": 167
+  },
+  {
+   "id": "original-extraction-06-0",
+   "tier": "standard",
+   "family": "extraction",
+   "pred": "courier",
+   "gold": "courier",
+   "ok": true,
+   "p": {
+    "courier": 0.5672,
+    "pickup": 0.0005,
+    "post": 0.0021,
+    "unknown": 0.4302
+   },
+   "ms": 235.71065900614485,
+   "tokens": 171
+  },
+  {
+   "id": "original-extraction-06-1",
+   "tier": "standard",
+   "family": "extraction",
+   "pred": "courier",
+   "gold": "courier",
+   "ok": true,
+   "p": {
+    "courier": 0.5955,
+    "pickup": 0.0026,
+    "post": 0.1595,
+    "unknown": 0.2425
+   },
+   "ms": 235.8266490045935,
+   "tokens": 170
+  },
+  {
+   "id": "original-adequacy-01-0",
+   "tier": "standard",
+   "family": "adequacy",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.9975,
+    "no": 0.0024999999999999467
+   },
+   "ms": 233.36149100214243,
+   "tokens": 157
+  },
+  {
+   "id": "original-adequacy-01-1",
+   "tier": "standard",
+   "family": "adequacy",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.9896,
+    "no": 0.010399999999999965
+   },
+   "ms": 232.32967300282326,
+   "tokens": 153
+  },
+  {
+   "id": "original-adequacy-02-0",
+   "tier": "standard",
+   "family": "adequacy",
+   "pred": "yes",
+   "gold": "no",
+   "ok": false,
+   "p": {
+    "yes": 0.9901,
+    "no": 0.00990000000000002
+   },
+   "ms": 232.91614599293098,
+   "tokens": 154
+  },
+  {
+   "id": "original-adequacy-02-1",
+   "tier": "standard",
+   "family": "adequacy",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.0044,
+    "no": 0.9956
+   },
+   "ms": 232.66501000034623,
+   "tokens": 154
+  },
+  {
+   "id": "original-adequacy-03-0",
+   "tier": "standard",
+   "family": "adequacy",
+   "pred": "yes",
+   "gold": "no",
+   "ok": false,
+   "p": {
+    "yes": 0.9998,
+    "no": 0.00019999999999997797
+   },
+   "ms": 233.26056101359427,
+   "tokens": 156
+  },
+  {
+   "id": "original-adequacy-03-1",
+   "tier": "standard",
+   "family": "adequacy",
+   "pred": "yes",
+   "gold": "no",
+   "ok": false,
+   "p": {
+    "yes": 0.9902,
+    "no": 0.009800000000000031
+   },
+   "ms": 233.65199299587402,
+   "tokens": 160
+  },
+  {
+   "id": "original-adequacy-04-0",
+   "tier": "standard",
+   "family": "adequacy",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.988,
+    "no": 0.01200000000000001
+   },
+   "ms": 234.51103300612886,
+   "tokens": 160
+  },
+  {
+   "id": "original-adequacy-04-1",
+   "tier": "standard",
+   "family": "adequacy",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.6403,
+    "no": 0.3597
+   },
+   "ms": 233.76761200779583,
+   "tokens": 157
+  },
+  {
+   "id": "original-adequacy-05-0",
+   "tier": "standard",
+   "family": "adequacy",
+   "pred": "yes",
+   "gold": "no",
+   "ok": false,
+   "p": {
+    "yes": 0.9868,
+    "no": 0.01319999999999999
+   },
+   "ms": 232.62236898881383,
+   "tokens": 150
+  },
+  {
+   "id": "original-adequacy-05-1",
+   "tier": "standard",
+   "family": "adequacy",
+   "pred": "yes",
+   "gold": "no",
+   "ok": false,
+   "p": {
+    "yes": 0.9988,
+    "no": 0.0011999999999999789
+   },
+   "ms": 232.20983700593933,
+   "tokens": 150
+  },
+  {
+   "id": "original-adequacy-06-0",
+   "tier": "standard",
+   "family": "adequacy",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.7078,
+    "no": 0.2922
+   },
+   "ms": 235.42325300513767,
+   "tokens": 166
+  },
+  {
+   "id": "original-adequacy-06-1",
+   "tier": "standard",
+   "family": "adequacy",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.9804,
+    "no": 0.01959999999999995
+   },
+   "ms": 235.56309900595807,
+   "tokens": 167
+  },
+  {
+   "id": "original-routing-01-0",
+   "tier": "standard",
+   "family": "routing",
+   "pred": "math",
+   "gold": "math",
+   "ok": true,
+   "p": {
+    "coding": 0.0003,
+    "coding_agent": 0.0002,
+    "document": 0.0004,
+    "general": 0.0008,
+    "math": 0.9983,
+    "tools": 0.0001
+   },
+   "ms": 247.60428800072987,
+   "tokens": 247
+  },
+  {
+   "id": "original-routing-01-1",
+   "tier": "standard",
+   "family": "routing",
+   "pred": "math",
+   "gold": "math",
+   "ok": true,
+   "p": {
+    "coding": 0.0004,
+    "coding_agent": 0.0003,
+    "document": 0.0003,
+    "general": 0.0016,
+    "math": 0.9973,
+    "tools": 0.0001
+   },
+   "ms": 246.59685599908698,
+   "tokens": 243
+  },
+  {
+   "id": "original-routing-02-0",
+   "tier": "standard",
+   "family": "routing",
+   "pred": "coding",
+   "gold": "coding",
+   "ok": true,
+   "p": {
+    "coding": 0.9925,
+    "coding_agent": 0.0003,
+    "document": 0.0002,
+    "general": 0.0068,
+    "math": 0.0001,
+    "tools": 0.0
+   },
+   "ms": 247.75228901125956,
+   "tokens": 248
+  },
+  {
+   "id": "original-routing-02-1",
+   "tier": "standard",
+   "family": "routing",
+   "pred": "coding",
+   "gold": "coding",
+   "ok": true,
+   "p": {
+    "coding": 0.9846,
+    "coding_agent": 0.0023,
+    "document": 0.0003,
+    "general": 0.0124,
+    "math": 0.0004,
+    "tools": 0.0001
+   },
+   "ms": 247.19867800013162,
+   "tokens": 242
+  },
+  {
+   "id": "original-routing-03-0",
+   "tier": "standard",
+   "family": "routing",
+   "pred": "coding_agent",
+   "gold": "coding_agent",
+   "ok": true,
+   "p": {
+    "coding": 0.0,
+    "coding_agent": 0.9999,
+    "document": 0.0001,
+    "general": 0.0,
+    "math": 0.0,
+    "tools": 0.0
+   },
+   "ms": 247.38690500089433,
+   "tokens": 247
+  },
+  {
+   "id": "original-routing-03-1",
+   "tier": "standard",
+   "family": "routing",
+   "pred": "coding_agent",
+   "gold": "coding_agent",
+   "ok": true,
+   "p": {
+    "coding": 0.0,
+    "coding_agent": 0.9999,
+    "document": 0.0001,
+    "general": 0.0,
+    "math": 0.0,
+    "tools": 0.0
+   },
+   "ms": 247.35947301087435,
+   "tokens": 249
+  },
+  {
+   "id": "original-routing-04-0",
+   "tier": "standard",
+   "family": "routing",
+   "pred": "document",
+   "gold": "document",
+   "ok": true,
+   "p": {
+    "coding": 0.0002,
+    "coding_agent": 0.0024,
+    "document": 0.9862,
+    "general": 0.0112,
+    "math": 0.0,
+    "tools": 0.0
+   },
+   "ms": 246.5370829886524,
+   "tokens": 243
+  },
+  {
+   "id": "original-routing-04-1",
+   "tier": "standard",
+   "family": "routing",
+   "pred": "document",
+   "gold": "document",
+   "ok": true,
+   "p": {
+    "coding": 0.0001,
+    "coding_agent": 0.0013,
+    "document": 0.9907,
+    "general": 0.0078,
+    "math": 0.0,
+    "tools": 0.0
+   },
+   "ms": 246.779453009367,
+   "tokens": 242
+  },
+  {
+   "id": "original-routing-05-0",
+   "tier": "standard",
+   "family": "routing",
+   "pred": "tools",
+   "gold": "tools",
+   "ok": true,
+   "p": {
+    "coding": 0.0005,
+    "coding_agent": 0.0013,
+    "document": 0.0127,
+    "general": 0.0016,
+    "math": 0.0,
+    "tools": 0.9838
+   },
+   "ms": 246.59224800416268,
+   "tokens": 244
+  },
+  {
+   "id": "original-routing-05-1",
+   "tier": "standard",
+   "family": "routing",
+   "pred": "general",
+   "gold": "tools",
+   "ok": false,
+   "p": {
+    "coding": 0.0005,
+    "coding_agent": 0.033,
+    "document": 0.0017,
+    "general": 0.917,
+    "math": 0.0001,
+    "tools": 0.0477
+   },
+   "ms": 246.9409490004182,
+   "tokens": 244
+  },
+  {
+   "id": "original-routing-06-0",
+   "tier": "standard",
+   "family": "routing",
+   "pred": "general",
+   "gold": "general",
+   "ok": true,
+   "p": {
+    "coding": 0.0386,
+    "coding_agent": 0.0275,
+    "document": 0.0026,
+    "general": 0.9312,
+    "math": 0.0,
+    "tools": 0.0
+   },
+   "ms": 246.5965059964219,
+   "tokens": 243
+  },
+  {
+   "id": "original-routing-06-1",
+   "tier": "standard",
+   "family": "routing",
+   "pred": "general",
+   "gold": "general",
+   "ok": true,
+   "p": {
+    "coding": 0.0188,
+    "coding_agent": 0.0247,
+    "document": 0.0015,
+    "general": 0.955,
+    "math": 0.0,
+    "tools": 0.0
+   },
+   "ms": 246.84910499490798,
+   "tokens": 242
+  },
+  {
+   "id": "easy-intent-00",
+   "tier": "easy",
+   "family": "intent",
+   "pred": "track_order",
+   "gold": "track_order",
+   "ok": true,
+   "p": {
+    "billing_question": 0.0,
+    "cancel_order": 0.0,
+    "change_address": 0.0,
+    "report_damage": 0.0,
+    "track_order": 1.0
+   },
+   "ms": 243.39681399578694,
+   "tokens": 224
+  },
+  {
+   "id": "easy-intent-01",
+   "tier": "easy",
+   "family": "intent",
+   "pred": "cancel_order",
+   "gold": "cancel_order",
+   "ok": true,
+   "p": {
+    "billing_question": 0.0,
+    "cancel_order": 1.0,
+    "change_address": 0.0,
+    "report_damage": 0.0,
+    "track_order": 0.0
+   },
+   "ms": 243.98173399094958,
+   "tokens": 224
+  },
+  {
+   "id": "easy-intent-02",
+   "tier": "easy",
+   "family": "intent",
+   "pred": "change_address",
+   "gold": "change_address",
+   "ok": true,
+   "p": {
+    "billing_question": 0.0,
+    "cancel_order": 0.0,
+    "change_address": 1.0,
+    "report_damage": 0.0,
+    "track_order": 0.0
+   },
+   "ms": 243.89192399394233,
+   "tokens": 227
+  },
+  {
+   "id": "easy-intent-03",
+   "tier": "easy",
+   "family": "intent",
+   "pred": "report_damage",
+   "gold": "report_damage",
+   "ok": true,
+   "p": {
+    "billing_question": 0.0,
+    "cancel_order": 0.0,
+    "change_address": 0.0001,
+    "report_damage": 0.9999,
+    "track_order": 0.0
+   },
+   "ms": 242.08661800366826,
+   "tokens": 216
+  },
+  {
+   "id": "easy-intent-04",
+   "tier": "easy",
+   "family": "intent",
+   "pred": "billing_question",
+   "gold": "billing_question",
+   "ok": true,
+   "p": {
+    "billing_question": 0.9999,
+    "cancel_order": 0.0001,
+    "change_address": 0.0,
+    "report_damage": 0.0,
+    "track_order": 0.0
+   },
+   "ms": 242.85946499730926,
+   "tokens": 221
+  },
+  {
+   "id": "easy-intent-05",
+   "tier": "easy",
+   "family": "intent",
+   "pred": "track_order",
+   "gold": "track_order",
+   "ok": true,
+   "p": {
+    "billing_question": 0.0,
+    "cancel_order": 0.0,
+    "change_address": 0.0,
+    "report_damage": 0.0,
+    "track_order": 0.9999
+   },
+   "ms": 242.68122599460185,
+   "tokens": 220
+  },
+  {
+   "id": "easy-intent-06",
+   "tier": "easy",
+   "family": "intent",
+   "pred": "set_alarm",
+   "gold": "set_alarm",
+   "ok": true,
+   "p": {
+    "play_music": 0.0,
+    "send_message": 0.0,
+    "set_alarm": 1.0,
+    "turn_off_lights": 0.0,
+    "weather": 0.0
+   },
+   "ms": 239.57872999017127,
+   "tokens": 205
+  },
+  {
+   "id": "easy-intent-07",
+   "tier": "easy",
+   "family": "intent",
+   "pred": "play_music",
+   "gold": "play_music",
+   "ok": true,
+   "p": {
+    "play_music": 0.9999,
+    "send_message": 0.0,
+    "set_alarm": 0.0,
+    "turn_off_lights": 0.0,
+    "weather": 0.0
+   },
+   "ms": 349.39568099798635,
+   "tokens": 198
+  },
+  {
+   "id": "easy-intent-08",
+   "tier": "easy",
+   "family": "intent",
+   "pred": "weather",
+   "gold": "weather",
+   "ok": true,
+   "p": {
+    "play_music": 0.0,
+    "send_message": 0.0,
+    "set_alarm": 0.0,
+    "turn_off_lights": 0.0,
+    "weather": 0.9999
+   },
+   "ms": 387.89129701035563,
+   "tokens": 200
+  },
+  {
+   "id": "easy-intent-09",
+   "tier": "easy",
+   "family": "intent",
+   "pred": "send_message",
+   "gold": "send_message",
+   "ok": true,
+   "p": {
+    "play_music": 0.0,
+    "send_message": 0.9995,
+    "set_alarm": 0.0004,
+    "turn_off_lights": 0.0,
+    "weather": 0.0
+   },
+   "ms": 268.39066100365017,
+   "tokens": 203
+  },
+  {
+   "id": "easy-intent-10",
+   "tier": "easy",
+   "family": "intent",
+   "pred": "turn_off_lights",
+   "gold": "turn_off_lights",
+   "ok": true,
+   "p": {
+    "play_music": 0.0,
+    "send_message": 0.0,
+    "set_alarm": 0.0,
+    "turn_off_lights": 0.9999,
+    "weather": 0.0
+   },
+   "ms": 404.07823299756274,
+   "tokens": 201
+  },
+  {
+   "id": "easy-intent-11",
+   "tier": "easy",
+   "family": "intent",
+   "pred": "set_alarm",
+   "gold": "set_alarm",
+   "ok": true,
+   "p": {
+    "play_music": 0.0,
+    "send_message": 0.0,
+    "set_alarm": 1.0,
+    "turn_off_lights": 0.0,
+    "weather": 0.0
+   },
+   "ms": 272.0566770003643,
+   "tokens": 201
+  },
+  {
+   "id": "easy-fact-00",
+   "tier": "easy",
+   "family": "fact",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.9995,
+    "no": 0.0004999999999999449
+   },
+   "ms": 171.5959190041758,
+   "tokens": 153
+  },
+  {
+   "id": "easy-fact-01",
+   "tier": "easy",
+   "family": "fact",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.0004,
+    "no": 0.9996
+   },
+   "ms": 168.17977699975017,
+   "tokens": 150
+  },
+  {
+   "id": "easy-fact-02",
+   "tier": "easy",
+   "family": "fact",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.9998,
+    "no": 0.00019999999999997797
+   },
+   "ms": 169.22661400167271,
+   "tokens": 157
+  },
+  {
+   "id": "easy-fact-03",
+   "tier": "easy",
+   "family": "fact",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.0029,
+    "no": 0.9971
+   },
+   "ms": 166.8613549991278,
+   "tokens": 160
+  },
+  {
+   "id": "easy-fact-04",
+   "tier": "easy",
+   "family": "fact",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.9987,
+    "no": 0.0012999999999999678
+   },
+   "ms": 246.66249098663684,
+   "tokens": 151
+  },
+  {
+   "id": "easy-fact-05",
+   "tier": "easy",
+   "family": "fact",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.001,
+    "no": 0.999
+   },
+   "ms": 242.8126750019146,
+   "tokens": 152
+  },
+  {
+   "id": "easy-fact-06",
+   "tier": "easy",
+   "family": "fact",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.9997,
+    "no": 0.00029999999999996696
+   },
+   "ms": 243.9398050046293,
+   "tokens": 185
+  },
+  {
+   "id": "easy-fact-07",
+   "tier": "easy",
+   "family": "fact",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.0004,
+    "no": 0.9996
+   },
+   "ms": 238.17139898892492,
+   "tokens": 148
+  },
+  {
+   "id": "easy-fact-08",
+   "tier": "easy",
+   "family": "fact",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.9998,
+    "no": 0.00019999999999997797
+   },
+   "ms": 155.17903699947055,
+   "tokens": 142
+  },
+  {
+   "id": "easy-fact-09",
+   "tier": "easy",
+   "family": "fact",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.0003,
+    "no": 0.9997
+   },
+   "ms": 129.70733401016332,
+   "tokens": 142
+  },
+  {
+   "id": "easy-fact-10",
+   "tier": "easy",
+   "family": "fact",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.9983,
+    "no": 0.0017000000000000348
+   },
+   "ms": 234.10656600026414,
+   "tokens": 155
+  },
+  {
+   "id": "easy-fact-11",
+   "tier": "easy",
+   "family": "fact",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.0002,
+    "no": 0.9998
+   },
+   "ms": 232.71192000538576,
+   "tokens": 156
+  },
+  {
+   "id": "easy-extraction-00",
+   "tier": "easy",
+   "family": "extraction",
+   "pred": "paypal",
+   "gold": "paypal",
+   "ok": true,
+   "p": {
+    "bank_transfer": 0.0,
+    "cash": 0.0,
+    "credit_card": 0.0001,
+    "paypal": 0.9999
+   },
+   "ms": 227.71049800212495,
+   "tokens": 146
+  },
+  {
+   "id": "easy-extraction-01",
+   "tier": "easy",
+   "family": "extraction",
+   "pred": "cash",
+   "gold": "cash",
+   "ok": true,
+   "p": {
+    "bank_transfer": 0.0,
+    "cash": 0.9999,
+    "credit_card": 0.0001,
+    "paypal": 0.0
+   },
+   "ms": 234.3477829999756,
+   "tokens": 148
+  },
+  {
+   "id": "easy-extraction-02",
+   "tier": "easy",
+   "family": "extraction",
+   "pred": "bank_transfer",
+   "gold": "bank_transfer",
+   "ok": true,
+   "p": {
+    "bank_transfer": 0.9997,
+    "cash": 0.0002,
+    "credit_card": 0.0001,
+    "paypal": 0.0
+   },
+   "ms": 231.61278299812693,
+   "tokens": 149
+  },
+  {
+   "id": "easy-extraction-03",
+   "tier": "easy",
+   "family": "extraction",
+   "pred": "high",
+   "gold": "high",
+   "ok": true,
+   "p": {
+    "high": 0.9885,
+    "low": 0.0001,
+    "medium": 0.0002,
+    "urgent": 0.0112
+   },
+   "ms": 155.5011089949403,
+   "tokens": 143
+  },
+  {
+   "id": "easy-extraction-04",
+   "tier": "easy",
+   "family": "extraction",
+   "pred": "low",
+   "gold": "low",
+   "ok": true,
+   "p": {
+    "high": 0.0,
+    "low": 1.0,
+    "medium": 0.0,
+    "urgent": 0.0
+   },
+   "ms": 154.50250399590004,
+   "tokens": 141
+  },
+  {
+   "id": "easy-extraction-05",
+   "tier": "easy",
+   "family": "extraction",
+   "pred": "urgent",
+   "gold": "urgent",
+   "ok": true,
+   "p": {
+    "high": 0.0124,
+    "low": 0.0001,
+    "medium": 0.0002,
+    "urgent": 0.9873
+   },
+   "ms": 155.36587200767826,
+   "tokens": 141
+  },
+  {
+   "id": "easy-extraction-06",
+   "tier": "easy",
+   "family": "extraction",
+   "pred": "M",
+   "gold": "M",
+   "ok": true,
+   "p": {
+    "L": 0.0,
+    "M": 1.0,
+    "S": 0.0,
+    "XL": 0.0
+   },
+   "ms": 153.6054020107258,
+   "tokens": 131
+  },
+  {
+   "id": "easy-extraction-07",
+   "tier": "easy",
+   "family": "extraction",
+   "pred": "XL",
+   "gold": "XL",
+   "ok": true,
+   "p": {
+    "L": 0.0,
+    "M": 0.0,
+    "S": 0.0,
+    "XL": 0.9999
+   },
+   "ms": 153.86198900523596,
+   "tokens": 129
+  },
+  {
+   "id": "easy-extraction-08",
+   "tier": "easy",
+   "family": "extraction",
+   "pred": "thursday",
+   "gold": "thursday",
+   "ok": true,
+   "p": {
+    "friday": 0.0,
+    "monday": 0.0,
+    "thursday": 1.0,
+    "tuesday": 0.0,
+    "wednesday": 0.0
+   },
+   "ms": 231.5746609965572,
+   "tokens": 147
+  },
+  {
+   "id": "easy-extraction-09",
+   "tier": "easy",
+   "family": "extraction",
+   "pred": "monday",
+   "gold": "monday",
+   "ok": true,
+   "p": {
+    "friday": 0.0,
+    "monday": 1.0,
+    "thursday": 0.0,
+    "tuesday": 0.0,
+    "wednesday": 0.0
+   },
+   "ms": 231.73117800615728,
+   "tokens": 149
+  },
+  {
+   "id": "easy-extraction-10",
+   "tier": "easy",
+   "family": "extraction",
+   "pred": "friday",
+   "gold": "friday",
+   "ok": true,
+   "p": {
+    "friday": 0.9997,
+    "monday": 0.0001,
+    "thursday": 0.0002,
+    "tuesday": 0.0,
+    "wednesday": 0.0
+   },
+   "ms": 233.77940501086414,
+   "tokens": 145
+  },
+  {
+   "id": "easy-extraction-11",
+   "tier": "easy",
+   "family": "extraction",
+   "pred": "credit_card",
+   "gold": "credit_card",
+   "ok": true,
+   "p": {
+    "bank_transfer": 0.0,
+    "cash": 0.0004,
+    "credit_card": 0.9995,
+    "paypal": 0.0001
+   },
+   "ms": 232.73340999730863,
+   "tokens": 152
+  },
+  {
+   "id": "easy-tool_selection-00",
+   "tier": "easy",
+   "family": "tool_selection",
+   "pred": "get_weather",
+   "gold": "get_weather",
+   "ok": true,
+   "p": {
+    "convert_currency": 0.0,
+    "create_calendar_event": 0.0,
+    "get_weather": 1.0,
+    "send_email": 0.0,
+    "translate_text": 0.0
+   },
+   "ms": 240.95310700067785,
+   "tokens": 213
+  },
+  {
+   "id": "easy-tool_selection-01",
+   "tier": "easy",
+   "family": "tool_selection",
+   "pred": "send_email",
+   "gold": "send_email",
+   "ok": true,
+   "p": {
+    "convert_currency": 0.0,
+    "create_calendar_event": 0.0,
+    "get_weather": 0.0001,
+    "send_email": 0.9999,
+    "translate_text": 0.0
+   },
+   "ms": 241.44256599538494,
+   "tokens": 214
+  },
+  {
+   "id": "easy-tool_selection-02",
+   "tier": "easy",
+   "family": "tool_selection",
+   "pred": "create_calendar_event",
+   "gold": "create_calendar_event",
+   "ok": true,
+   "p": {
+    "convert_currency": 0.0,
+    "create_calendar_event": 0.9999,
+    "get_weather": 0.0001,
+    "send_email": 0.0,
+    "translate_text": 0.0
+   },
+   "ms": 242.40471099619754,
+   "tokens": 217
+  },
+  {
+   "id": "easy-tool_selection-03",
+   "tier": "easy",
+   "family": "tool_selection",
+   "pred": "convert_currency",
+   "gold": "convert_currency",
+   "ok": true,
+   "p": {
+    "convert_currency": 0.9999,
+    "create_calendar_event": 0.0,
+    "get_weather": 0.0,
+    "send_email": 0.0,
+    "translate_text": 0.0
+   },
+   "ms": 242.3551379906712,
+   "tokens": 215
+  },
+  {
+   "id": "easy-tool_selection-04",
+   "tier": "easy",
+   "family": "tool_selection",
+   "pred": "translate_text",
+   "gold": "translate_text",
+   "ok": true,
+   "p": {
+    "convert_currency": 0.0,
+    "create_calendar_event": 0.0,
+    "get_weather": 0.0,
+    "send_email": 0.0,
+    "translate_text": 1.0
+   },
+   "ms": 244.13416300376412,
+   "tokens": 211
+  },
+  {
+   "id": "easy-tool_selection-05",
+   "tier": "easy",
+   "family": "tool_selection",
+   "pred": "create_calendar_event",
+   "gold": "create_calendar_event",
+   "ok": true,
+   "p": {
+    "convert_currency": 0.0,
+    "create_calendar_event": 0.9999,
+    "get_weather": 0.0001,
+    "send_email": 0.0,
+    "translate_text": 0.0
+   },
+   "ms": 242.2695060085971,
+   "tokens": 217
+  },
+  {
+   "id": "easy-tool_selection-06",
+   "tier": "easy",
+   "family": "tool_selection",
+   "pred": "search_flights",
+   "gold": "search_flights",
+   "ok": true,
+   "p": {
+    "book_restaurant": 0.0,
+    "call_taxi": 0.0,
+    "get_stock_price": 0.0001,
+    "search_flights": 0.9999,
+    "set_reminder": 0.0
+   },
+   "ms": 243.05883199849632,
+   "tokens": 226
+  },
+  {
+   "id": "easy-tool_selection-07",
+   "tier": "easy",
+   "family": "tool_selection",
+   "pred": "book_restaurant",
+   "gold": "book_restaurant",
+   "ok": true,
+   "p": {
+    "book_restaurant": 0.9999,
+    "call_taxi": 0.0,
+    "get_stock_price": 0.0,
+    "search_flights": 0.0,
+    "set_reminder": 0.0
+   },
+   "ms": 243.12697199638933,
+   "tokens": 226
+  },
+  {
+   "id": "easy-tool_selection-08",
+   "tier": "easy",
+   "family": "tool_selection",
+   "pred": "set_reminder",
+   "gold": "set_reminder",
+   "ok": true,
+   "p": {
+    "book_restaurant": 0.0,
+    "call_taxi": 0.0,
+    "get_stock_price": 0.0,
+    "search_flights": 0.0,
+    "set_reminder": 1.0
+   },
+   "ms": 242.99317800614517,
+   "tokens": 225
+  },
+  {
+   "id": "easy-tool_selection-09",
+   "tier": "easy",
+   "family": "tool_selection",
+   "pred": "get_stock_price",
+   "gold": "get_stock_price",
+   "ok": true,
+   "p": {
+    "book_restaurant": 0.0,
+    "call_taxi": 0.0,
+    "get_stock_price": 1.0,
+    "search_flights": 0.0,
+    "set_reminder": 0.0
+   },
+   "ms": 242.74591900757514,
+   "tokens": 222
+  },
+  {
+   "id": "easy-tool_selection-10",
+   "tier": "easy",
+   "family": "tool_selection",
+   "pred": "call_taxi",
+   "gold": "call_taxi",
+   "ok": true,
+   "p": {
+    "book_restaurant": 0.0,
+    "call_taxi": 1.0,
+    "get_stock_price": 0.0,
+    "search_flights": 0.0,
+    "set_reminder": 0.0
+   },
+   "ms": 242.68536400632001,
+   "tokens": 222
+  },
+  {
+   "id": "easy-tool_selection-11",
+   "tier": "easy",
+   "family": "tool_selection",
+   "pred": "set_reminder",
+   "gold": "set_reminder",
+   "ok": true,
+   "p": {
+    "book_restaurant": 0.0,
+    "call_taxi": 0.0,
+    "get_stock_price": 0.0,
+    "search_flights": 0.0,
+    "set_reminder": 0.9999
+   },
+   "ms": 244.05258799379226,
+   "tokens": 225
+  },
+  {
+   "id": "hard-opus-a-long_policy-01",
+   "tier": "hard",
+   "family": "long_policy",
+   "pred": "deny_vacancy_exclusion",
+   "gold": "pay_subject_to_15000_sublimit",
+   "ok": false,
+   "p": {
+    "deny_repeated_seepage": 0.0018,
+    "deny_vacancy_exclusion": 0.9027,
+    "pay_full_estimate_less_deductible": 0.0295,
+    "pay_subject_to_10000_sublimit": 0.0043,
+    "pay_subject_to_15000_sublimit": 0.0616
+   },
+   "ms": 4497.591317995102,
+   "tokens": 4113
+  },
+  {
+   "id": "hard-opus-a-long_policy-04",
+   "tier": "hard",
+   "family": "long_policy",
+   "pred": "department_head",
+   "gold": "cfo",
+   "ok": false,
+   "p": {
+    "budget_holder": 0.0001,
+    "cfo": 0.1496,
+    "department_head": 0.466,
+    "executive_committee": 0.0289,
+    "vp_and_finance_director": 0.3555
+   },
+   "ms": 2774.6025859960355,
+   "tokens": 2763
+  },
+  {
+   "id": "hard-opus-a-long_policy-08",
+   "tier": "hard",
+   "family": "long_policy",
+   "pred": "parts_covered_labour_charged",
+   "gold": "parts_covered_labour_charged",
+   "ok": true,
+   "p": {
+    "full_repair_no_charge": 0.0516,
+    "not_covered": 0.1675,
+    "parts_covered_labour_charged": 0.6632,
+    "pro_rata_replacement_credit": 0.1178
+   },
+   "ms": 2510.5473720032023,
+   "tokens": 2502
+  },
+  {
+   "id": "hard-opus-a-long_policy-09",
+   "tier": "hard",
+   "family": "long_policy",
+   "pred": "license_exception_lvs",
+   "gold": "license_required",
+   "ok": false,
+   "p": {
+    "license_exception_lvs": 0.7941,
+    "license_required": 0.0177,
+    "no_license_required": 0.188,
+    "shipment_prohibited": 0.0002
+   },
+   "ms": 2644.9024149915203,
+   "tokens": 2626
+  },
+  {
+   "id": "hard-opus-a-long_policy-11",
+   "tier": "hard",
+   "family": "long_policy",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.9442,
+    "no": 0.05579999999999996
+   },
+   "ms": 2309.064091008622,
+   "tokens": 2410
+  },
+  {
+   "id": "hard-opus-a-long_policy-13",
+   "tier": "hard",
+   "family": "long_policy",
+   "pred": "no",
+   "gold": "yes",
+   "ok": false,
+   "p": {
+    "yes": 0.3609,
+    "no": 0.6391
+   },
+   "ms": 2407.3150050098775,
+   "tokens": 2475
+  },
+  {
+   "id": "hard-opus-a-long_policy-17",
+   "tier": "hard",
+   "family": "long_policy",
+   "pred": "platform_oncall",
+   "gold": "database_oncall",
+   "ok": false,
+   "p": {
+    "database_oncall": 0.0009,
+    "no_page_ticket_only": 0.2437,
+    "platform_oncall": 0.754,
+    "security_incident_response": 0.0003,
+    "vendor_support": 0.0012
+   },
+   "ms": 2404.295515996637,
+   "tokens": 2442
+  },
+  {
+   "id": "hard-opus-a-long_policy-19",
+   "tier": "hard",
+   "family": "long_policy",
+   "pred": "yes",
+   "gold": "no",
+   "ok": false,
+   "p": {
+    "yes": 0.5071,
+    "no": 0.4929
+   },
+   "ms": 2376.117116000387,
+   "tokens": 2385
+  },
+  {
+   "id": "hard-opus-a-probability-03",
+   "tier": "hard",
+   "family": "probability",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.9942,
+    "no": 0.005800000000000027
+   },
+   "ms": 511.6336930077523,
+   "tokens": 503
+  },
+  {
+   "id": "hard-opus-a-probability-04",
+   "tier": "hard",
+   "family": "probability",
+   "pred": "late",
+   "gold": "on_time",
+   "ok": false,
+   "p": {
+    "early": 0.0059,
+    "late": 0.9839,
+    "on_time": 0.0102
+   },
+   "ms": 1098.085314995842,
+   "tokens": 1177
+  },
+  {
+   "id": "hard-opus-a-probability-07",
+   "tier": "hard",
+   "family": "probability",
+   "pred": "resolved_first_contact",
+   "gold": "escalated",
+   "ok": false,
+   "p": {
+    "escalated": 0.2879,
+    "reopened": 0.0384,
+    "resolved_first_contact": 0.6737
+   },
+   "ms": 1223.7911769916536,
+   "tokens": 1285
+  },
+  {
+   "id": "hard-opus-a-probability-08",
+   "tier": "hard",
+   "family": "probability",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.1378,
+    "no": 0.8622
+   },
+   "ms": 500.1833150017774,
+   "tokens": 452
+  },
+  {
+   "id": "hard-opus-a-temporal_numeric-03",
+   "tier": "hard",
+   "family": "temporal_numeric",
+   "pred": "no",
+   "gold": "yes",
+   "ok": false,
+   "p": {
+    "yes": 0.4999,
+    "no": 0.5001
+   },
+   "ms": 528.1303149968153,
+   "tokens": 560
+  },
+  {
+   "id": "hard-opus-a-temporal_numeric-06",
+   "tier": "hard",
+   "family": "temporal_numeric",
+   "pred": "yes",
+   "gold": "no",
+   "ok": false,
+   "p": {
+    "yes": 0.9994,
+    "no": 0.0006000000000000449
+   },
+   "ms": 611.9114739994984,
+   "tokens": 616
+  },
+  {
+   "id": "hard-opus-a-temporal_numeric-07",
+   "tier": "hard",
+   "family": "temporal_numeric",
+   "pred": "sep_24",
+   "gold": "sep_26",
+   "ok": false,
+   "p": {
+    "sep_24": 0.4531,
+    "sep_25": 0.0396,
+    "sep_26": 0.0224,
+    "sep_27": 0.0648,
+    "sep_28": 0.4202
+   },
+   "ms": 1332.496519011329,
+   "tokens": 1402
+  },
+  {
+   "id": "hard-opus-a-temporal_numeric-09",
+   "tier": "hard",
+   "family": "temporal_numeric",
+   "pred": "yes",
+   "gold": "no",
+   "ok": false,
+   "p": {
+    "yes": 0.5485,
+    "no": 0.4515
+   },
+   "ms": 610.913509997772,
+   "tokens": 609
+  },
+  {
+   "id": "hard-opus-a-temporal_numeric-12",
+   "tier": "hard",
+   "family": "temporal_numeric",
+   "pred": "2",
+   "gold": "1",
+   "ok": false,
+   "p": {
+    "0": 0.0547,
+    "1": 0.2489,
+    "2": 0.4983,
+    "3": 0.1981
+   },
+   "ms": 632.7001609897707,
+   "tokens": 698
+  },
+  {
+   "id": "hard-opus-b-ambiguous-02",
+   "tier": "hard",
+   "family": "ambiguous",
+   "pred": "real_incident",
+   "gold": "real_incident",
+   "ok": true,
+   "p": {
+    "cannot_determine": 0.1947,
+    "false_positive": 0.0198,
+    "real_incident": 0.7855
+   },
+   "ms": 615.0164249993395,
+   "tokens": 621
+  },
+  {
+   "id": "hard-opus-b-ambiguous-03",
+   "tier": "hard",
+   "family": "ambiguous",
+   "pred": "time_barred",
+   "gold": "time_barred",
+   "ok": true,
+   "p": {
+    "insufficient_information": 0.4862,
+    "time_barred": 0.5005,
+    "within_limitation": 0.0133
+   },
+   "ms": 532.6036140031647,
+   "tokens": 591
+  },
+  {
+   "id": "hard-opus-b-ambiguous-07",
+   "tier": "hard",
+   "family": "ambiguous",
+   "pred": "insufficient_information",
+   "gold": "within_policy",
+   "ok": false,
+   "p": {
+    "insufficient_information": 0.592,
+    "over_limit": 0.3485,
+    "within_policy": 0.0595
+   },
+   "ms": 530.6206419918453,
+   "tokens": 577
+  },
+  {
+   "id": "hard-opus-b-ambiguous-09",
+   "tier": "hard",
+   "family": "ambiguous",
+   "pred": "compromised",
+   "gold": "legitimate",
+   "ok": false,
+   "p": {
+    "compromised": 0.9967,
+    "inconclusive": 0.0,
+    "legitimate": 0.0032
+   },
+   "ms": 723.7235310021788,
+   "tokens": 714
+  },
+  {
+   "id": "hard-opus-b-ambiguous-10",
+   "tier": "hard",
+   "family": "ambiguous",
+   "pred": "ask_user_which_alex",
+   "gold": "ask_user_which_alex",
+   "ok": true,
+   "p": {
+    "ask_user_which_alex": 0.9437,
+    "send_to_alex_moreno": 0.0527,
+    "send_to_alexandra_lind": 0.0035
+   },
+   "ms": 519.1598439996596,
+   "tokens": 532
+  },
+  {
+   "id": "hard-opus-b-ambiguous-11",
+   "tier": "hard",
+   "family": "ambiguous",
+   "pred": "cannot_determine",
+   "gold": "cannot_determine",
+   "ok": true,
+   "p": {
+    "cannot_determine": 0.6747,
+    "grade_correct": 0.0012,
+    "grade_should_be_higher": 0.324
+   },
+   "ms": 522.5472319871187,
+   "tokens": 546
+  },
+  {
+   "id": "hard-opus-b-ambiguous-13",
+   "tier": "hard",
+   "family": "ambiguous",
+   "pred": "cannot_determine",
+   "gold": "cannot_determine",
+   "ok": true,
+   "p": {
+    "cannot_determine": 0.8122,
+    "charge_data_team": 0.0019,
+    "charge_platform_team": 0.0012,
+    "split_50_50": 0.1847
+   },
+   "ms": 717.1924470021622,
+   "tokens": 715
+  },
+  {
+   "id": "hard-opus-b-multi_hop-03",
+   "tier": "hard",
+   "family": "multi_hop",
+   "pred": "tier2_department_head",
+   "gold": "tier3_cfo",
+   "ok": false,
+   "p": {
+    "tier1_team_lead": 0.0002,
+    "tier2_department_head": 0.9975,
+    "tier3_cfo": 0.0022,
+    "tier4_board": 0.0001
+   },
+   "ms": 2970.0482620100956,
+   "tokens": 3013
+  },
+  {
+   "id": "hard-opus-b-multi_hop-04",
+   "tier": "hard",
+   "family": "multi_hop",
+   "pred": "esra",
+   "gold": "bjorn",
+   "ok": false,
+   "p": {
+    "ana": 0.0142,
+    "bjorn": 0.0052,
+    "chen": 0.3447,
+    "dmitri": 0.0892,
+    "esra": 0.409,
+    "no_page_ticket_only": 0.1377
+   },
+   "ms": 2280.094519999693,
+   "tokens": 2359
+  },
+  {
+   "id": "hard-opus-b-multi_hop-05",
+   "tier": "hard",
+   "family": "multi_hop",
+   "pred": "1",
+   "gold": "2",
+   "ok": false,
+   "p": {
+    "0": 0.0024,
+    "1": 0.9477,
+    "2": 0.0475,
+    "3": 0.0017,
+    "4": 0.0007
+   },
+   "ms": 2661.2627200083807,
+   "tokens": 2675
+  },
+  {
+   "id": "hard-opus-b-multi_hop-07",
+   "tier": "hard",
+   "family": "multi_hop",
+   "pred": "credit_50_percent",
+   "gold": "credit_20_percent",
+   "ok": false,
+   "p": {
+    "credit_10_percent": 0.0184,
+    "credit_20_percent": 0.0019,
+    "credit_25_percent": 0.4816,
+    "credit_50_percent": 0.4915,
+    "credit_full_month": 0.004,
+    "no_credit": 0.0027
+   },
+   "ms": 2676.974945003167,
+   "tokens": 2725
+  },
+  {
+   "id": "hard-opus-b-multi_hop-08",
+   "tier": "hard",
+   "family": "multi_hop",
+   "pred": "yes",
+   "gold": "no",
+   "ok": false,
+   "p": {
+    "yes": 0.8864,
+    "no": 0.11360000000000003
+   },
+   "ms": 2277.599776003626,
+   "tokens": 2354
+  },
+  {
+   "id": "hard-opus-b-probability-01",
+   "tier": "hard",
+   "family": "probability",
+   "pred": "merchant_wins",
+   "gold": "merchant_wins",
+   "ok": true,
+   "p": {
+    "customer_wins": 0.4414,
+    "customer_withdraws": 0.0935,
+    "merchant_wins": 0.4651
+   },
+   "ms": 1847.2271289938362,
+   "tokens": 1967
+  },
+  {
+   "id": "hard-opus-b-probability-02",
+   "tier": "hard",
+   "family": "probability",
+   "pred": "bad_push",
+   "gold": "upstream_provider",
+   "ok": false,
+   "p": {
+    "bad_push": 0.9949,
+    "database_hardware": 0.004,
+    "upstream_provider": 0.0011
+   },
+   "ms": 531.170745001873,
+   "tokens": 569
+  },
+  {
+   "id": "hard-opus-b-probability-03",
+   "tier": "hard",
+   "family": "probability",
+   "pred": "no",
+   "gold": "yes",
+   "ok": false,
+   "p": {
+    "yes": 0.3829,
+    "no": 0.6171
+   },
+   "ms": 1181.9339210051112,
+   "tokens": 1249
+  },
+  {
+   "id": "hard-opus-b-probability-04",
+   "tier": "hard",
+   "family": "probability",
+   "pred": "attended",
+   "gold": "attended",
+   "ok": true,
+   "p": {
+    "attended": 0.5788,
+    "late_cancellation": 0.0938,
+    "no_show": 0.3274
+   },
+   "ms": 633.1525889982004,
+   "tokens": 696
+  },
+  {
+   "id": "hard-opus-b-probability-06",
+   "tier": "hard",
+   "family": "probability",
+   "pred": "overturned",
+   "gold": "upheld",
+   "ok": false,
+   "p": {
+    "modified": 0.0105,
+    "overturned": 0.9406,
+    "upheld": 0.0488
+   },
+   "ms": 983.4598900051787,
+   "tokens": 1058
+  },
+  {
+   "id": "hard-opus-b-tradeoff-01",
+   "tier": "hard",
+   "family": "tradeoff",
+   "pred": "escalate_to_engineering",
+   "gold": "escalate_to_engineering",
+   "ok": true,
+   "p": {
+    "escalate_to_engineering": 0.5872,
+    "escalate_to_security": 0.3599,
+    "page_oncall": 0.0222,
+    "process_refund": 0.0264,
+    "send_kb_article": 0.0042
+   },
+   "ms": 951.3386390026426,
+   "tokens": 970
+  },
+  {
+   "id": "hard-opus-b-tradeoff-03",
+   "tier": "hard",
+   "family": "tradeoff",
+   "pred": "order_c",
+   "gold": "order_b",
+   "ok": false,
+   "p": {
+    "order_a": 0.0012,
+    "order_b": 0.0565,
+    "order_c": 0.9408,
+    "order_d": 0.0016
+   },
+   "ms": 763.2075129949953,
+   "tokens": 861
+  },
+  {
+   "id": "hard-opus-b-tradeoff-06",
+   "tier": "hard",
+   "family": "tradeoff",
+   "pred": "no",
+   "gold": "yes",
+   "ok": false,
+   "p": {
+    "yes": 0.1014,
+    "no": 0.8986
+   },
+   "ms": 843.432171997847,
+   "tokens": 880
+  },
+  {
+   "id": "hard-opus-b-tradeoff-07",
+   "tier": "hard",
+   "family": "tradeoff",
+   "pred": "p2_fix_30d",
+   "gold": "p0_fix_24h",
+   "ok": false,
+   "p": {
+    "out_of_scope": 0.0002,
+    "p0_fix_24h": 0.2537,
+    "p1_fix_7d": 0.039,
+    "p2_fix_30d": 0.7063,
+    "p3_backlog": 0.0009
+   },
+   "ms": 840.9293130098376,
+   "tokens": 848
+  },
+  {
+   "id": "hard-opus-b-tradeoff-08",
+   "tier": "hard",
+   "family": "tradeoff",
+   "pred": "no",
+   "gold": "yes",
+   "ok": false,
+   "p": {
+    "yes": 0.3028,
+    "no": 0.6972
+   },
+   "ms": 634.7233499982394,
+   "tokens": 699
+  },
+  {
+   "id": "hard-opus-b-tradeoff-12",
+   "tier": "hard",
+   "family": "tradeoff",
+   "pred": "offer_store_credit",
+   "gold": "refund_now",
+   "ok": false,
+   "p": {
+    "deny_refund": 0.0,
+    "escalate_to_fraud_team": 0.0001,
+    "offer_store_credit": 0.5007,
+    "refund_now": 0.0017,
+    "wait_for_inspection": 0.4976
+   },
+   "ms": 631.9283560005715,
+   "tokens": 692
+  },
+  {
+   "id": "hard-opus-c-long_policy-02",
+   "tier": "hard",
+   "family": "long_policy",
+   "pred": "erase_but_retain_transaction_records",
+   "gold": "erase_but_retain_transaction_records",
+   "ok": true,
+   "p": {
+    "erase_all": 0.0066,
+    "erase_but_retain_transaction_records": 0.9867,
+    "erase_marketing_only": 0.0052,
+    "reject_unverified_request": 0.0008,
+    "restrict_all_pending_legal_hold": 0.0007
+   },
+   "ms": 3839.2620550002903,
+   "tokens": 3701
+  },
+  {
+   "id": "hard-opus-c-long_policy-03",
+   "tier": "hard",
+   "family": "long_policy",
+   "pred": "eur_300",
+   "gold": "eur_400",
+   "ok": false,
+   "p": {
+    "eur_0": 0.0002,
+    "eur_150": 0.001,
+    "eur_200": 0.0035,
+    "eur_300": 0.4987,
+    "eur_400": 0.0029,
+    "eur_600": 0.4937
+   },
+   "ms": 3716.0431340016657,
+   "tokens": 3605
+  },
+  {
+   "id": "hard-opus-c-long_policy-04",
+   "tier": "hard",
+   "family": "long_policy",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.9763,
+    "no": 0.023700000000000054
+   },
+   "ms": 3390.556872007437,
+   "tokens": 3354
+  },
+  {
+   "id": "hard-opus-c-long_policy-05",
+   "tier": "hard",
+   "family": "long_policy",
+   "pred": "0",
+   "gold": "1",
+   "ok": false,
+   "p": {
+    "0": 0.5525,
+    "1": 0.0724,
+    "2": 0.3625,
+    "3": 0.0126
+   },
+   "ms": 3433.5917419957696,
+   "tokens": 3352
+  },
+  {
+   "id": "hard-opus-c-long_policy-08",
+   "tier": "hard",
+   "family": "long_policy",
+   "pred": "2",
+   "gold": "1",
+   "ok": false,
+   "p": {
+    "0": 0.0008,
+    "1": 0.1302,
+    "2": 0.8685,
+    "3": 0.0006
+   },
+   "ms": 3392.950462992303,
+   "tokens": 3304
+  },
+  {
+   "id": "hard-opus-c-long_policy-10",
+   "tier": "hard",
+   "family": "long_policy",
+   "pred": "full_credit",
+   "gold": "credit_minus_restocking_fee",
+   "ok": false,
+   "p": {
+    "credit_minus_restocking_fee": 0.0539,
+    "full_credit": 0.5066,
+    "reject_return": 0.0062,
+    "repair_or_replace_only": 0.4334
+   },
+   "ms": 3852.664456993807,
+   "tokens": 3694
+  },
+  {
+   "id": "hard-opus-c-long_policy-11",
+   "tier": "hard",
+   "family": "long_policy",
+   "pred": "yes",
+   "gold": "no",
+   "ok": false,
+   "p": {
+    "yes": 0.7858,
+    "no": 0.21419999999999995
+   },
+   "ms": 3548.9839229994686,
+   "tokens": 3446
+  },
+  {
+   "id": "hard-opus-c-probability-03",
+   "tier": "hard",
+   "family": "probability",
+   "pred": "halvorsen_polymer",
+   "gold": "kuznets_technik",
+   "ok": false,
+   "p": {
+    "halvorsen_polymer": 0.9507,
+    "kuznets_technik": 0.0217,
+    "ortega_seal_works": 0.0276
+   },
+   "ms": 625.4519369977061,
+   "tokens": 668
+  },
+  {
+   "id": "hard-opus-c-temporal_numeric-02",
+   "tier": "hard",
+   "family": "temporal_numeric",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.5979,
+    "no": 0.4021
+   },
+   "ms": 1055.7819229870802,
+   "tokens": 1053
+  },
+  {
+   "id": "hard-opus-c-temporal_numeric-03",
+   "tier": "hard",
+   "family": "temporal_numeric",
+   "pred": "eur_693_90",
+   "gold": "eur_692_00",
+   "ok": false,
+   "p": {
+    "eur_617_00": 0.0109,
+    "eur_688_00": 0.0205,
+    "eur_692_00": 0.2364,
+    "eur_693_90": 0.723,
+    "eur_812_00": 0.0092
+   },
+   "ms": 961.2990989990067,
+   "tokens": 1013
+  },
+  {
+   "id": "hard-opus-c-temporal_numeric-04",
+   "tier": "hard",
+   "family": "temporal_numeric",
+   "pred": "usd_2303_33",
+   "gold": "usd_2335_00",
+   "ok": false,
+   "p": {
+    "usd_2222_50": 0.0069,
+    "usd_2303_01": 0.043,
+    "usd_2303_33": 0.9346,
+    "usd_2335_00": 0.0078,
+    "usd_2340_00": 0.0077
+   },
+   "ms": 939.5025400008308,
+   "tokens": 960
+  },
+  {
+   "id": "hard-opus-c-temporal_numeric-06",
+   "tier": "hard",
+   "family": "temporal_numeric",
+   "pred": "sep_17_parking",
+   "gold": "sep_18_book_set",
+   "ok": false,
+   "p": {
+    "none_declined": 0.0113,
+    "sep_15_office_chair": 0.375,
+    "sep_16_taxi": 0.1177,
+    "sep_17_parking": 0.4562,
+    "sep_18_book_set": 0.0234,
+    "sep_21_client_dinner": 0.0164
+   },
+   "ms": 1081.2869099900126,
+   "tokens": 1167
+  },
+  {
+   "id": "hard-opus-c-temporal_numeric-08",
+   "tier": "hard",
+   "family": "temporal_numeric",
+   "pred": "eur_506_06",
+   "gold": "eur_498_81",
+   "ok": false,
+   "p": {
+    "eur_497_40": 0.0237,
+    "eur_498_81": 0.3491,
+    "eur_506_06": 0.5167,
+    "eur_513_69": 0.1019,
+    "eur_532_01": 0.0086
+   },
+   "ms": 1081.815502999234,
+   "tokens": 1145
+  },
+  {
+   "id": "hard-opus-c-temporal_numeric-12",
+   "tier": "hard",
+   "family": "temporal_numeric",
+   "pred": "covered",
+   "gold": "expired_30_month_cap",
+   "ok": false,
+   "p": {
+    "covered": 0.9315,
+    "expired_24_month_term": 0.0618,
+    "expired_30_month_cap": 0.0068
+   },
+   "ms": 856.9506350031588,
+   "tokens": 926
+  },
+  {
+   "id": "hard-sol-a-adversarial-01",
+   "tier": "hard",
+   "family": "adversarial",
+   "pred": "grant_access",
+   "gold": "deny_missing_approval",
+   "ok": false,
+   "p": {
+    "deny_inactive_user": 0.0,
+    "deny_missing_approval": 0.0067,
+    "grant_access": 0.9929,
+    "grant_owner_exception": 0.0004
+   },
+   "ms": 393.41318600054365,
+   "tokens": 352
+  },
+  {
+   "id": "hard-sol-a-adversarial-06",
+   "tier": "hard",
+   "family": "adversarial",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.0007,
+    "no": 0.9993
+   },
+   "ms": 386.6102669999236,
+   "tokens": 302
+  },
+  {
+   "id": "hard-sol-a-adversarial-07",
+   "tier": "hard",
+   "family": "adversarial",
+   "pred": "delete_now",
+   "gold": "retain_until_2031",
+   "ok": false,
+   "p": {
+    "delete_now": 0.5814,
+    "needs_signature_review": 0.0008,
+    "retain_indefinitely": 0.001,
+    "retain_until_2031": 0.4168
+   },
+   "ms": 398.9526770019438,
+   "tokens": 383
+  },
+  {
+   "id": "hard-sol-a-adversarial-08",
+   "tier": "hard",
+   "family": "adversarial",
+   "pred": "no",
+   "gold": "yes",
+   "ok": false,
+   "p": {
+    "yes": 0.4269,
+    "no": 0.5730999999999999
+   },
+   "ms": 306.35656300000846,
+   "tokens": 274
+  },
+  {
+   "id": "hard-sol-a-adversarial-09",
+   "tier": "hard",
+   "family": "adversarial",
+   "pred": "3",
+   "gold": "2",
+   "ok": false,
+   "p": {
+    "0": 0.06,
+    "1": 0.0543,
+    "2": 0.3736,
+    "3": 0.5121
+   },
+   "ms": 387.836152993259,
+   "tokens": 311
+  },
+  {
+   "id": "hard-sol-a-adversarial-11",
+   "tier": "hard",
+   "family": "adversarial",
+   "pred": "standard_research",
+   "gold": "standard_research",
+   "ok": true,
+   "p": {
+    "ethics_review": 0.0179,
+    "major_grants": 0.1253,
+    "manual_hold": 0.0005,
+    "standard_research": 0.8563
+   },
+   "ms": 400.4979989986168,
+   "tokens": 387
+  },
+  {
+   "id": "hard-sol-a-multi_hop-01",
+   "tier": "hard",
+   "family": "multi_hop",
+   "pred": "accept_s2_dusk",
+   "gold": "accept_s2_dusk",
+   "ok": true,
+   "p": {
+    "accept_s2_dusk": 0.5855,
+    "reject_cutoff": 0.3614,
+    "reject_tier": 0.0191,
+    "reroute_s3": 0.034
+   },
+   "ms": 2405.897176009603,
+   "tokens": 2463
+  },
+  {
+   "id": "hard-sol-a-multi_hop-02",
+   "tier": "hard",
+   "family": "multi_hop",
+   "pred": "insufficient_information",
+   "gold": "security_primary",
+   "ok": false,
+   "p": {
+    "executive_bridge": 0.0026,
+    "heron_q2": 0.3954,
+    "insufficient_information": 0.5762,
+    "security_primary": 0.0258
+   },
+   "ms": 2493.6767700128257,
+   "tokens": 2478
+  },
+  {
+   "id": "hard-sol-a-multi_hop-05",
+   "tier": "hard",
+   "family": "multi_hop",
+   "pred": "pay_manager_approved",
+   "gold": "require_director",
+   "ok": false,
+   "p": {
+    "pay_manager_approved": 0.6735,
+    "reject_category": 0.0133,
+    "require_director": 0.3129,
+    "require_finance_board": 0.0003
+   },
+   "ms": 2380.6120559893316,
+   "tokens": 2397
+  },
+  {
+   "id": "hard-sol-a-multi_hop-07",
+   "tier": "hard",
+   "family": "multi_hop",
+   "pred": "deny_score",
+   "gold": "admit",
+   "ok": false,
+   "p": {
+    "admit": 0.0965,
+    "deny_prerequisite": 0.4333,
+    "deny_score": 0.4643,
+    "manual_equivalency": 0.0058
+   },
+   "ms": 2371.272674005013,
+   "tokens": 2390
+  },
+  {
+   "id": "hard-sol-a-multi_hop-08",
+   "tier": "hard",
+   "family": "multi_hop",
+   "pred": "local_maintenance",
+   "gold": "central_engineering",
+   "ok": false,
+   "p": {
+    "central_engineering": 0.0404,
+    "insufficient_log": 0.012,
+    "local_maintenance": 0.9441,
+    "safety_shutdown": 0.0035
+   },
+   "ms": 2369.8481210012687,
+   "tokens": 2372
+  },
+  {
+   "id": "hard-sol-a-multi_hop-09",
+   "tier": "hard",
+   "family": "multi_hop",
+   "pred": "require_steward",
+   "gold": "require_steward",
+   "ok": true,
+   "p": {
+    "confirm_l3": 0.0437,
+    "reject_capacity": 0.0056,
+    "require_steward": 0.95,
+    "switch_l4": 0.0006
+   },
+   "ms": 2287.075657004607,
+   "tokens": 2374
+  },
+  {
+   "id": "hard-sol-a-multi_hop-10",
+   "tier": "hard",
+   "family": "multi_hop",
+   "pred": "approve_45_days",
+   "gold": "approve_45_days",
+   "ok": true,
+   "p": {
+    "approve_45_days": 0.9875,
+    "deny_sensitive": 0.0028,
+    "needs_field_review": 0.0076,
+    "reduce_to_30_days": 0.0021
+   },
+   "ms": 2388.035060997936,
+   "tokens": 2421
+  },
+  {
+   "id": "hard-sol-a-multi_hop-12",
+   "tier": "hard",
+   "family": "multi_hop",
+   "pred": "covered_recurrence",
+   "gold": "needs_authentication",
+   "ok": false,
+   "p": {
+    "covered_recurrence": 0.7315,
+    "expired": 0.2642,
+    "needs_authentication": 0.0041,
+    "wrong_issue_class": 0.0002
+   },
+   "ms": 2377.023756998824,
+   "tokens": 2382
+  },
+  {
+   "id": "hard-sol-a-trap-02",
+   "tier": "hard",
+   "family": "trap",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.0387,
+    "no": 0.9613
+   },
+   "ms": 319.5684919919586,
+   "tokens": 351
+  },
+  {
+   "id": "hard-sol-a-trap-04",
+   "tier": "hard",
+   "family": "trap",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.0044,
+    "no": 0.9956
+   },
+   "ms": 302.89611700573005,
+   "tokens": 254
+  },
+  {
+   "id": "hard-sol-a-trap-05",
+   "tier": "hard",
+   "family": "trap",
+   "pred": "2",
+   "gold": "0",
+   "ok": false,
+   "p": {
+    "0": 0.013,
+    "1": 0.1448,
+    "2": 0.8073,
+    "3": 0.0349
+   },
+   "ms": 495.3187950013671,
+   "tokens": 427
+  },
+  {
+   "id": "hard-sol-a-trap-06",
+   "tier": "hard",
+   "family": "trap",
+   "pred": "keep_open_unresolved",
+   "gold": "keep_open_unresolved",
+   "ok": true,
+   "p": {
+    "await_internal_metrics": 0.0016,
+    "close_agent_verified": 0.0489,
+    "close_confirmed": 0.4186,
+    "keep_open_unresolved": 0.5309
+   },
+   "ms": 410.5207279935712,
+   "tokens": 433
+  },
+  {
+   "id": "hard-sol-a-trap-08",
+   "tier": "hard",
+   "family": "trap",
+   "pred": "on_time",
+   "gold": "late",
+   "ok": false,
+   "p": {
+    "canceled": 0.0001,
+    "indeterminate": 0.0013,
+    "late": 0.0119,
+    "on_time": 0.9868
+   },
+   "ms": 393.8253980013542,
+   "tokens": 357
+  },
+  {
+   "id": "hard-sol-a-trap-10",
+   "tier": "hard",
+   "family": "trap",
+   "pred": "blocked_second_review",
+   "gold": "blocked_second_review",
+   "ok": true,
+   "p": {
+    "blocked_failed_test": 0.0004,
+    "blocked_second_review": 0.6096,
+    "ready_one_review": 0.3639,
+    "ready_two_reviews": 0.026
+   },
+   "ms": 304.96293801115826,
+   "tokens": 283
+  },
+  {
+   "id": "hard-sol-a-trap-13",
+   "tier": "hard",
+   "family": "trap",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.066,
+    "no": 0.9339999999999999
+   },
+   "ms": 381.435026996769,
+   "tokens": 267
+  },
+  {
+   "id": "hard-sol-a-trap-15",
+   "tier": "hard",
+   "family": "trap",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.451,
+    "no": 0.5489999999999999
+   },
+   "ms": 400.973972005886,
+   "tokens": 374
+  },
+  {
+   "id": "hard-sol-b-judge_hard-01",
+   "tier": "hard",
+   "family": "judge_hard",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.6678,
+    "no": 0.33220000000000005
+   },
+   "ms": 396.53480899869464,
+   "tokens": 361
+  },
+  {
+   "id": "hard-sol-b-judge_hard-02",
+   "tier": "hard",
+   "family": "judge_hard",
+   "pred": "yes",
+   "gold": "no",
+   "ok": false,
+   "p": {
+    "yes": 0.9707,
+    "no": 0.029299999999999993
+   },
+   "ms": 307.23480800224934,
+   "tokens": 285
+  },
+  {
+   "id": "hard-sol-b-judge_hard-05",
+   "tier": "hard",
+   "family": "judge_hard",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.6578,
+    "no": 0.34219999999999995
+   },
+   "ms": 385.9589409985347,
+   "tokens": 304
+  },
+  {
+   "id": "hard-sol-b-judge_hard-08",
+   "tier": "hard",
+   "family": "judge_hard",
+   "pred": "yes",
+   "gold": "no",
+   "ok": false,
+   "p": {
+    "yes": 0.9919,
+    "no": 0.008099999999999996
+   },
+   "ms": 307.393259005039,
+   "tokens": 287
+  },
+  {
+   "id": "hard-sol-b-judge_hard-10",
+   "tier": "hard",
+   "family": "judge_hard",
+   "pred": "yes",
+   "gold": "no",
+   "ok": false,
+   "p": {
+    "yes": 0.9592,
+    "no": 0.04079999999999995
+   },
+   "ms": 386.15390099585056,
+   "tokens": 306
+  },
+  {
+   "id": "hard-sol-b-judge_hard-14",
+   "tier": "hard",
+   "family": "judge_hard",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.0883,
+    "no": 0.9117
+   },
+   "ms": 389.23213101224974,
+   "tokens": 323
+  },
+  {
+   "id": "hard-sol-b-judge_hard-15",
+   "tier": "hard",
+   "family": "judge_hard",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.9884,
+    "no": 0.011600000000000055
+   },
+   "ms": 305.252146004932,
+   "tokens": 279
+  },
+  {
+   "id": "hard-sol-b-judge_hard-18",
+   "tier": "hard",
+   "family": "judge_hard",
+   "pred": "yes",
+   "gold": "no",
+   "ok": false,
+   "p": {
+    "yes": 0.9901,
+    "no": 0.00990000000000002
+   },
+   "ms": 300.0825979979709,
+   "tokens": 246
+  },
+  {
+   "id": "hard-sol-b-long_policy-01",
+   "tier": "hard",
+   "family": "long_policy",
+   "pred": "approve_lodging_only",
+   "gold": "reject_entire_claim",
+   "ok": false,
+   "p": {
+    "approve_all": 0.0174,
+    "approve_lodging_only": 0.7063,
+    "approve_meals_only": 0.0225,
+    "reject_entire_claim": 0.2538
+   },
+   "ms": 2818.007750000106,
+   "tokens": 2843
+  },
+  {
+   "id": "hard-sol-b-long_policy-02",
+   "tier": "hard",
+   "family": "long_policy",
+   "pred": "privacy_and_security",
+   "gold": "deny_current_export",
+   "ok": false,
+   "p": {
+    "analytics_owner_only": 0.0098,
+    "deny_current_export": 0.0329,
+    "privacy_and_security": 0.9234,
+    "privacy_only": 0.0339
+   },
+   "ms": 2668.122167000547,
+   "tokens": 2681
+  },
+  {
+   "id": "hard-sol-b-long_policy-05",
+   "tier": "hard",
+   "family": "long_policy",
+   "pred": "delete_profile_omar_april_and_table",
+   "gold": "delete_profile_omar_april_and_table",
+   "ok": true,
+   "p": {
+    "delete_everything": 0.0011,
+    "delete_nothing": 0.4828,
+    "delete_only_profile": 0.0173,
+    "delete_profile_omar_april_and_table": 0.4988
+   },
+   "ms": 2581.1186539940536,
+   "tokens": 2653
+  },
+  {
+   "id": "hard-sol-b-long_policy-06",
+   "tier": "hard",
+   "family": "long_policy",
+   "pred": "river_arts",
+   "gold": "east_ward",
+   "ok": false,
+   "p": {
+    "east_ward": 0.0421,
+    "harbor_neighbors": 0.016,
+    "no_award": 0.468,
+    "river_arts": 0.4738
+   },
+   "ms": 2685.597115996643,
+   "tokens": 2724
+  },
+  {
+   "id": "hard-sol-b-routing_hard-01",
+   "tier": "hard",
+   "family": "routing_hard",
+   "pred": "office_file_repair",
+   "gold": "office_file_repair",
+   "ok": true,
+   "p": {
+    "data_pipeline": 0.0,
+    "desktop_support": 0.0,
+    "finance_review": 0.0001,
+    "office_file_repair": 0.9999,
+    "spreadsheet_formula": 0.0
+   },
+   "ms": 494.8152799915988,
+   "tokens": 442
+  },
+  {
+   "id": "hard-sol-b-routing_hard-02",
+   "tier": "hard",
+   "family": "routing_hard",
+   "pred": "ledger_reconciliation",
+   "gold": "ledger_reconciliation",
+   "ok": true,
+   "p": {
+    "customer_support": 0.0,
+    "fraud_review": 0.0,
+    "ledger_reconciliation": 1.0,
+    "mobile_app": 0.0,
+    "payment_disputes": 0.0
+   },
+   "ms": 406.45678600412793,
+   "tokens": 410
+  },
+  {
+   "id": "hard-sol-b-routing_hard-03",
+   "tier": "hard",
+   "family": "routing_hard",
+   "pred": "network_dns",
+   "gold": "network_dns",
+   "ok": true,
+   "p": {
+    "api_platform": 0.0,
+    "authoritative_dns": 0.0001,
+    "endpoint_devices": 0.0008,
+    "network_dns": 0.999,
+    "tls_certificates": 0.0
+   },
+   "ms": 405.8239849982783,
+   "tokens": 406
+  },
+  {
+   "id": "hard-sol-b-routing_hard-07",
+   "tier": "hard",
+   "family": "routing_hard",
+   "pred": "release_notarization",
+   "gold": "release_notarization",
+   "ok": true,
+   "p": {
+    "ci_infrastructure": 0.0,
+    "code_signing": 0.0397,
+    "endpoint_security": 0.0017,
+    "macos_runtime": 0.0001,
+    "release_notarization": 0.9584
+   },
+   "ms": 401.63267200114205,
+   "tokens": 390
+  },
+  {
+   "id": "hard-sol-b-routing_hard-09",
+   "tier": "hard",
+   "family": "routing_hard",
+   "pred": "source_access",
+   "gold": "source_access",
+   "ok": true,
+   "p": {
+    "git_client": 0.0,
+    "identity_login": 0.0,
+    "repository_admin": 0.0003,
+    "source_access": 0.9996,
+    "vpn_network": 0.0
+   },
+   "ms": 402.82362299331,
+   "tokens": 396
+  },
+  {
+   "id": "hard-sol-b-temporal_numeric-01",
+   "tier": "hard",
+   "family": "temporal_numeric",
+   "pred": "within_window",
+   "gold": "late_by_under_2h",
+   "ok": false,
+   "p": {
+    "before_open": 0.0608,
+    "late_by_2h_or_more": 0.052,
+    "late_by_under_2h": 0.0741,
+    "within_window": 0.8131
+   },
+   "ms": 401.5968940075254,
+   "tokens": 392
+  },
+  {
+   "id": "hard-sol-b-temporal_numeric-02",
+   "tier": "hard",
+   "family": "temporal_numeric",
+   "pred": "over_limit",
+   "gold": "over_limit",
+   "ok": true,
+   "p": {
+    "at_least_100gb_below": 0.0401,
+    "exactly_equal": 0.0272,
+    "over_limit": 0.8765,
+    "under_100gb_below": 0.0561
+   },
+   "ms": 405.24119000474457,
+   "tokens": 414
+  },
+  {
+   "id": "hard-sol-b-temporal_numeric-03",
+   "tier": "hard",
+   "family": "temporal_numeric",
+   "pred": "15_credits",
+   "gold": "9_credits",
+   "ok": false,
+   "p": {
+    "12_credits": 0.1531,
+    "15_credits": 0.3644,
+    "6_credits": 0.3639,
+    "9_credits": 0.1186
+   },
+   "ms": 315.99915999686345,
+   "tokens": 344
+  },
+  {
+   "id": "hard-sol-b-temporal_numeric-04",
+   "tier": "hard",
+   "family": "temporal_numeric",
+   "pred": "pass",
+   "gold": "pass",
+   "ok": true,
+   "p": {
+    "clear_fail": 0.085,
+    "narrow_fail": 0.3789,
+    "pass": 0.5362
+   },
+   "ms": 388.311654998688,
+   "tokens": 323
+  },
+  {
+   "id": "hard-sol-c-judge_hard-03",
+   "tier": "hard",
+   "family": "judge_hard",
+   "pred": "yes",
+   "gold": "no",
+   "ok": false,
+   "p": {
+    "yes": 0.5935,
+    "no": 0.4065
+   },
+   "ms": 503.11634100216907,
+   "tokens": 479
+  },
+  {
+   "id": "hard-sol-c-judge_hard-05",
+   "tier": "hard",
+   "family": "judge_hard",
+   "pred": "no",
+   "gold": "yes",
+   "ok": false,
+   "p": {
+    "yes": 0.2179,
+    "no": 0.7821
+   },
+   "ms": 412.9004429996712,
+   "tokens": 441
+  },
+  {
+   "id": "hard-sol-c-judge_hard-07",
+   "tier": "hard",
+   "family": "judge_hard",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.3999,
+    "no": 0.6001000000000001
+   },
+   "ms": 403.68488599779084,
+   "tokens": 406
+  },
+  {
+   "id": "hard-sol-c-judge_hard-08",
+   "tier": "hard",
+   "family": "judge_hard",
+   "pred": "yes",
+   "gold": "no",
+   "ok": false,
+   "p": {
+    "yes": 0.9705,
+    "no": 0.02949999999999997
+   },
+   "ms": 402.86581200780347,
+   "tokens": 399
+  },
+  {
+   "id": "hard-sol-c-judge_hard-09",
+   "tier": "hard",
+   "family": "judge_hard",
+   "pred": "no",
+   "gold": "yes",
+   "ok": false,
+   "p": {
+    "yes": 0.4328,
+    "no": 0.5671999999999999
+   },
+   "ms": 408.98171700246166,
+   "tokens": 431
+  },
+  {
+   "id": "hard-sol-c-judge_hard-10",
+   "tier": "hard",
+   "family": "judge_hard",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.5406,
+    "no": 0.45940000000000003
+   },
+   "ms": 499.8665349994553,
+   "tokens": 460
+  },
+  {
+   "id": "hard-sol-c-judge_hard-11",
+   "tier": "hard",
+   "family": "judge_hard",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.0053,
+    "no": 0.9947
+   },
+   "ms": 409.09146500052884,
+   "tokens": 430
+  },
+  {
+   "id": "hard-sol-c-judge_hard-13",
+   "tier": "hard",
+   "family": "judge_hard",
+   "pred": "no",
+   "gold": "no",
+   "ok": true,
+   "p": {
+    "yes": 0.4851,
+    "no": 0.5149
+   },
+   "ms": 407.55278601136524,
+   "tokens": 420
+  },
+  {
+   "id": "hard-sol-c-judge_hard-15",
+   "tier": "hard",
+   "family": "judge_hard",
+   "pred": "yes",
+   "gold": "yes",
+   "ok": true,
+   "p": {
+    "yes": 0.98,
+    "no": 0.020000000000000018
+   },
+   "ms": 396.88217799994163,
+   "tokens": 374
+  },
+  {
+   "id": "hard-sol-c-multi_hop-07",
+   "tier": "hard",
+   "family": "multi_hop",
+   "pred": "programme_review",
+   "gold": "programme_review",
+   "ok": true,
+   "p": {
+    "partial_release": 0.0022,
+    "programme_review": 0.9802,
+    "reject_draw": 0.0072,
+    "release_draw": 0.0104
+   },
+   "ms": 2524.26740800729,
+   "tokens": 2538
+  },
+  {
+   "id": "hard-sol-c-multi_hop-09",
+   "tier": "hard",
+   "family": "multi_hop",
+   "pred": "bus_substitution",
+   "gold": "bus_substitution",
+   "ok": true,
+   "p": {
+    "bus_substitution": 0.6001,
+    "call_fen_cross": 0.338,
+    "pass_fen_cross": 0.0279,
+    "terminate_oakmere": 0.034
+   },
+   "ms": 2534.0185899985954,
+   "tokens": 2561
+  },
+  {
+   "id": "hard-sol-c-multi_hop-11",
+   "tier": "hard",
+   "family": "multi_hop",
+   "pred": "coverage_confirmed",
+   "gold": "coverage_excluded",
+   "ok": false,
+   "p": {
+    "adjuster_referral": 0.001,
+    "coverage_confirmed": 0.7929,
+    "coverage_excluded": 0.1737,
+    "documentation_needed": 0.0325
+   },
+   "ms": 2561.2013209902216,
+   "tokens": 2636
+  },
+  {
+   "id": "hard-sol-c-multi_hop-12",
+   "tier": "hard",
+   "family": "multi_hop",
+   "pred": "supervised_delivery",
+   "gold": "conservation_hold",
+   "ok": false,
+   "p": {
+    "conservation_hold": 0.0594,
+    "deny_request": 0.007,
+    "digital_copy_only": 0.4226,
+    "supervised_delivery": 0.511
+   },
+   "ms": 616.2977869971655,
+   "tokens": 626
+  },
+  {
+   "id": "hard-sol-c-multi_hop-13",
+   "tier": "hard",
+   "family": "multi_hop",
+   "pred": "normal_release",
+   "gold": "normal_release",
+   "ok": true,
+   "p": {
+    "engineering_review": 0.001,
+    "normal_release": 0.9972,
+    "rework": 0.0016,
+    "scrap_lot": 0.0002
+   },
+   "ms": 2553.0187340045813,
+   "tokens": 2600
+  }
+ ]
+}

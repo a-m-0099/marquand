@@ -1,0 +1,117 @@
+{
+  "latest": {
+    "path": "~/.lmstudio/models/lmstudio-community/Qwen3.5-9B-GGUF/Qwen3.5-9B-Q4_K_M.gguf",
+    "calib": {
+      "T": 1.467,
+      "noul_T": 1.741,
+      "noul_b": -0.2,
+      "perms": 1,
+      "bias": {
+        "2": [
+          0.0,
+          -1.0
+        ],
+        "3": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "4": [
+          0.0,
+          0.25,
+          1.25,
+          0.5
+        ],
+        "5": [
+          0.0,
+          -0.25,
+          0.75,
+          -0.25,
+          -1.0
+        ],
+        "6": [
+          0.0,
+          -1.0,
+          -0.5,
+          -0.5,
+          -1.0,
+          0.25
+        ],
+        "7": [
+          0.0,
+          1.0,
+          2.25,
+          0.5,
+          -2.0,
+          1.5,
+          0.5
+        ]
+      }
+    }
+  },
+  "vision": {
+    "path": "~/.lmstudio/models/lmstudio-community/Qwen3.5-9B-GGUF/Qwen3.5-9B-Q4_K_M.gguf",
+    "calib": {
+      "T": 1.467,
+      "noul_T": 1.741,
+      "noul_b": -0.2,
+      "perms": 1,
+      "bias": {
+        "2": [
+          0.0,
+          -1.0
+        ],
+        "3": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "4": [
+          0.0,
+          0.25,
+          1.25,
+          0.5
+        ],
+        "5": [
+          0.0,
+          -0.25,
+          0.75,
+          -0.25,
+          -1.0
+        ],
+        "6": [
+          0.0,
+          -1.0,
+          -0.5,
+          -0.5,
+          -1.0,
+          0.25
+        ],
+        "7": [
+          0.0,
+          1.0,
+          2.25,
+          0.5,
+          -2.0,
+          1.5,
+          0.5
+        ]
+      }
+    },
+    "mmproj": "~/.lmstudio/models/lmstudio-community/Qwen3.5-9B-GGUF/mmproj-Qwen3.5-9B-BF16.gguf"
+  },
+  "fast": {
+    "path": "models/jev-fast-2b-Q8_0.gguf",
+    "mmproj": "models/mmproj-Qwen3.5-2B-F16.gguf",
+    "calib": {
+      "perms": 1
+    }
+  },
+  "instant": {
+    "path": "models/jev-fast-0.8b-Q8_0.gguf",
+    "mmproj": "~/.lmstudio/models/lmstudio-community/Qwen3.5-0.8B-GGUF/mmproj-Qwen3.5-0.8B-BF16.gguf",
+    "calib": {
+      "perms": 1
+    }
+  }
+}
