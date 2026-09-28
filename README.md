@@ -3,7 +3,7 @@
 
 
 ### Marquand is a local drop in replacement for Typesafe AI's Jev (System One) API. 
-it runs *locally on your own GPU* while still being compattible with the official 
+it runs *locally on your own GPU* while still being compatible with the official 
 SDK and any other things that hit `POST /v1/systemone` without touching their servers. 
 #### This is an independent hobby project and is not affiliated with TypeSafe and no models here are the real Jev itself. Jev belongs to TypeSafe AI and is under *their* ownership.
 
@@ -20,11 +20,11 @@ and built a better one in 1881 (which was smaller, faster, and more effecient th
 and he later made the electric version, often called the first design for an electrical logic gate. So essentially, Marquand took one thing that Jevons did and made better,
 which is sort of the idea of this project.
 
-The main reason I made this is for NPCs on a personal game I'm making, which is why this project has Godot game engine compatibility (more on that in [usage](https://github.com/a-m-0099/marquand/new/master?filename=README.md#usage), and I didn't really want to pay for Jev (no matter how cheap it is, 
+The main reason I made this is for NPCs on a personal game I'm making, which is why this project has Godot game engine compatibility (more on that in [usage](#usage), and I didn't really want to pay for Jev (no matter how cheap it is, 
 it's still just a proprietary AI classifier). 
 After it was working, I decided to put it publicly on GitHub in case by some miracle somebody stumbles across the repo. Maybe I'll supply updates to it later, maybe I won't.
 
-The project was built and tested on a *Ryzen 7 7840HS* with an *RX 7700S (8 GB VRAM)* on Linux (CachyOS) using llama.cpp via Vulkan. AMD on Linux is the tested path, anything else is untested and with the current budget is not going to be planned on being tested. The 9B parameter model needs ~7.5 GB of VRAM at 64k context, the 2B needs ~4.5 GB and 0.8B a lot less. It's required to have Python 3.12, uv, cmake and gslc, and the scripts/build_llama.sh builds lamma-cpp-python with Vulkan without sudo. 
+The project was built and tested on a *Ryzen 7 7840HS* with an *RX 7700S (8 GB VRAM)* on Linux (CachyOS) using llama.cpp via Vulkan. AMD on Linux is the tested path, anything else is untested and with the current budget is not going to be planned on being tested. The 9B parameter model needs ~7.5 GB of VRAM at 64k context, the 2B needs ~4.5 GB and 0.8B a lot less. It's required to have Python 3.12, uv, cmake and glslc, and the scripts/build_llama.sh builds lamma-cpp-python with Vulkan without sudo. 
 
 In this repo, **Claude was responsible for a good bit of the model training and creating the dashboard.** Click off if you don't like that, as I would too. But it's still a solid project, 
 if I don't say so myself.
@@ -107,7 +107,7 @@ planner.append(a.get("next", {}).get("choice", "idle"))
 | Images | yes: `state.image` / `state.screenshot` on `vision`, `fast`, `instant` | text only ("no images, audio or video yet") |
 | Models | 4 tiers, and you can swap in any GGUF | one hosted model |
 | Weights | open; retrain with `train/distill.py` | closed |
-| Latency floor | 49-70 ms for a 5-question call (`instant`, question dependent), no network | ~70-500 ms per call, including the network |
+| Latency floor | 69 ms for a 5-question call (`instant`, question dependent), no network | ~70-500 ms per call, including the network |
 | Extras | CLI, Godot autoload, prefix reuse for realtime loops, thermal and VRAM guards | JS/Python SDKs, Vercel AI SDK integration |
 
 ### Feature Parity
@@ -155,7 +155,7 @@ It took me about 1.5 hours for the 2B model and 2 hours for the 0.8B, though tho
 
 #### Laptop Safety Note
 
-Unfortunately, while I was training these models on my laptop (Framework 16 Arch Linux btw), I ran into some quite high temperatures ~100 degrees C since my training was (obviously) rather poorly planned and did not account for temps and RAM spills / OOM. Training and benchmarking pauses at 85 degrees C and resume at 75 degrees C (`MARQ_MAX_TEMP` / `MARQ_RESUME_TEMP`). The engine won't let a model run out of VRAM and spill into RAM - this OOM-ed me. The `scripts/meguard.sh` script kills a job if free RAM is below 2.5 gigs. Also, `ROCPROFILER_REGISTER_ENABLED`=0 because otherwise it keeps a CPU core at 100% the whole time and you don't want a freshly fried CPU, do you?
+Unfortunately, while I was training these models on my laptop (Framework 16 Arch Linux btw), I ran into some quite high temperatures ~100 degrees C since my training was (obviously) rather poorly planned and did not account for temps and RAM spills / OOM. Training and benchmarking pauses at 85 degrees C and resume at 75 degrees C (`MARQ_MAX_TEMP` / `MARQ_RESUME_TEMP`). The engine won't let a model run out of VRAM and spill into RAM - this OOM-ed me. The `scripts/memguard.sh` script kills a job if free RAM is below 2.5 gigs. Also, `ROCPROFILER_REGISTER_ENABLED`=0 because otherwise it keeps a CPU core at 100% the whole time and you don't want a freshly fried CPU, do you?
 
 ## Testing + Benchmarks
 `.venv/bin/pytest -q` runs 26 tests; engine, vision, HTTP, API, official SDK round-trip, CLI, guards. They skip if the test model isn't there
