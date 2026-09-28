@@ -173,3 +173,5 @@ Marquand is still behind 12 points from Jev overall and further behind on hard t
 ## *Credits and Licenses*
 
 Code is licensed under MIT. Credit to llama.cpp and llama-cpp-python, Qwen 3.5 which is under the Apache 2.0 license, JevBench, OpenJev, and the jev-distill-corpus-v3, Open-Jev-v1.1, and tasksource datasets.
+
+*AI-assisted through usage of agents in training and dashboard. Click off if you don't like it.*
