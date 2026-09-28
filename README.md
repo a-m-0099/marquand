@@ -16,15 +16,15 @@ Well..
 TypeSafe named Jev presumably after [*Jevons Paradox*](https://en.wikipedia.org/w/index.php?title=Jevons_paradox&oldid=1375801571&useskin=vector). 
 Now, while William Jevons was the famed economist known for this, he was also a logician, and is responsible for making the logic piano in 1869, a machine that
 worked out the conclusions that follow a set of premises. Allan Marquand studied Jevons' work 
-and built a better one in 1881 (which was smaller, faster, and more effecient than Jevons')
-and he later made the electric version, often called the first design for an electrical logic gate. So essentially, Marquand took one thing that Jevons did and made better,
+and built a better one in 1881 (which was smaller, faster, and more efficient than Jevons')
+and he later made the electric version, often called the first design for an electrical logic machine. So essentially, Marquand took one thing that Jevons did and made better,
 which is sort of the idea of this project.
 
 The main reason I made this is for NPCs on a personal game I'm making, which is why this project has Godot game engine compatibility (more on that in [usage](#usage), and I didn't really want to pay for Jev (no matter how cheap it is, 
 it's still just a proprietary AI classifier). 
 After it was working, I decided to put it publicly on GitHub in case by some miracle somebody stumbles across the repo. Maybe I'll supply updates to it later, maybe I won't.
 
-The project was built and tested on a *Ryzen 7 7840HS* with an *RX 7700S (8 GB VRAM)* on Linux (CachyOS) using llama.cpp via Vulkan. AMD on Linux is the tested path, anything else is untested and with the current budget is not going to be planned on being tested. The 9B parameter model needs ~7.5 GB of VRAM at 64k context, the 2B needs ~4.5 GB and 0.8B a lot less. It's required to have Python 3.12, uv, cmake and glslc, and the scripts/build_llama.sh builds lamma-cpp-python with Vulkan without sudo. 
+The project was built and tested on a *Ryzen 7 7840HS* with an *RX 7700S (8 GB VRAM)* on Linux (CachyOS) using llama.cpp via Vulkan. AMD on Linux is the tested path, anything else is untested and with the current budget is not going to be planned on being tested. The 9B parameter model needs ~7.5 GB of VRAM at 64k context, the 2B needs ~4.5 GB and 0.8B a lot less. It's required to have Python 3.12, uv, cmake and glslc, and the scripts/build_llama.sh builds llama-cpp-python with Vulkan without sudo. 
 
 In this repo, **Claude was responsible for a good bit of the model training and creating the dashboard.** Click off if you don't like that, as I would too. But it's still a solid project, 
 if I don't say so myself.
@@ -35,10 +35,11 @@ Just run `./scripts/build_llama.sh` to build.
 
 The project has 3 models - 
 - The 9B (choose between latest and vision support) is `lmstudio-community/Qwen3.5-9B-GGUF`, the `Q4_K_M` file plus `mmproj-Qwen3.5-9B-BF16.gguf` if you want images.
-- "Fast" is mine: https://huggingface.co/a-m-0099/marquand/commit/e4f6846d793910b2aa8bf39fc7ff39dbb4c72c0e
-- "Instant" is mine: https://huggingface.co/a-m-0099/marquand/commit/55376d6e2f76f2f1b597ebe7b36455bfd0396e18
-The models belong in `models/`. The instant model's vision projector is mmproj-Qwen3.5-0.8B-BF16.gguf from lmstudio-community/Qwen3.5-0.8B-GGUF. The paths are in
-`marq/models.json`, relative paths are from the repo so if you have a different setup just edit that file.
+- "Fast" is [mine](https://huggingface.co/a-m-0099/marquand).
+- "Instant" is [mine](https://huggingface.co/a-m-0099/marquand).
+
+The models belong in `models/`. The instant model's vision projector is mmproj-Qwen3.5-0.8B-BF16.gguf from lmstudio-community/Qwen3.5-0.8B-GGUF. The paths are in `marq/models.json`, relative paths are from the repo so if you have a different setup just edit that file.
+You can Use `hf download a-m-0099/marquand --local-dir models` to put the files straight into `models/`.
 
 ## Usage
 #### *The part you've all been waiting for.*
@@ -143,7 +144,7 @@ over the option letters at the answer spot (*+position bias and temp*),the confi
 
 ## Training
 
-If you want to make your own fast model, `train/distill.py`  fine-tunes `Qwen3.5` on Jev's own probabilities (`jev-distill-corpus-v3`) along with Open-Jev labels. `train/export.py` merges it and converts it into a GGUF. It requires a seperate PyTorch ROCm venv; the one I used was:
+If you want to make your own fast model, `train/distill.py`  fine-tunes `Qwen3.5` on Jev's own probabilities (`jev-distill-corpus-v3`) along with Open-Jev labels. `train/export.py` merges it and converts it into a GGUF. It requires a separate PyTorch ROCm venv; the one I used was:
 ```fish
 uv venv --python 3.12 .venv-train
 uv pip install --python .venv-train --index-url https://download.pytorch.org/whl/rocm7.14 torch
@@ -158,7 +159,7 @@ It took me about 1.5 hours for the 2B model and 2 hours for the 0.8B, though tho
 Unfortunately, while I was training these models on my laptop (Framework 16 Arch Linux btw), I ran into some quite high temperatures ~100 degrees C since my training was (obviously) rather poorly planned and did not account for temps and RAM spills / OOM. Training and benchmarking pauses at 85 degrees C and resume at 75 degrees C (`MARQ_MAX_TEMP` / `MARQ_RESUME_TEMP`). The engine won't let a model run out of VRAM and spill into RAM - this OOM-ed me. The `scripts/memguard.sh` script kills a job if free RAM is below 2.5 gigs. Also, `ROCPROFILER_REGISTER_ENABLED`=0 because otherwise it keeps a CPU core at 100% the whole time and you don't want a freshly fried CPU, do you?
 
 ## Testing + Benchmarks
-`.venv/bin/pytest -q` runs 26 tests; engine, vision, HTTP, API, official SDK round-trip, CLI, guards. They skip if the test model isn't there
+`.venv/bin/pytest -q` runs 28 tests; engine, vision, HTTP, API, official SDK round-trip, CLI, guards. They skip if the test model isn't there
 (`MARQ_TEST_MODEL`). For the benchmarks, JevBench gets cloned into `bench/jevbench` and `bench/build_calib.py` rebuilds calibration data before `bench/calib.py` can refit anything;
 ```fish
 git clone --depth 1 https://github.com/fstandhartinger/jevbench bench/jevbench
