@@ -1,5 +1,5 @@
 #!/bin/sh
-# builds llama-cpp-python with Vulkan into .venv - it grabs the headers itself so no sudo needed
+# builds llama-cpp-python with Vulkan into .venv and installs marq there - it grabs the headers itself so no sudo needed
 set -e
 cd "$(dirname "$0")/.."
 SDK=$PWD/vendor/sdk
@@ -12,4 +12,4 @@ if [ ! -d "$SDK/include/vulkan" ]; then
 fi
 CMAKE_ARGS="-DGGML_VULKAN=on -DCMAKE_PREFIX_PATH=$SDK -DVulkan_INCLUDE_DIR=$SDK/include -DGGML_NATIVE=on" \
 CMAKE_BUILD_PARALLEL_LEVEL=16 \
-  uv pip install --python .venv --no-cache --reinstall --no-binary llama-cpp-python "llama-cpp-python==0.3.35" pytest
+  uv pip install --python .venv --no-cache --reinstall --no-binary llama-cpp-python "llama-cpp-python==0.3.35" pytest -e .

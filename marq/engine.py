@@ -292,6 +292,11 @@ class Engine:
         L.llama_memory_seq_cp(self.mem, 0, free[0], -1, -1)
         self.ckpts.append((self.n_past, free[0]))
 
+    # a 1-token job on a spare sequence, so the GPU doesn't fall asleep between requests (waking it takes ~1 s)
+    def ping(self):
+        self._decode([(self.pad, 0, self.n_seq, False)])
+        L.llama_memory_seq_rm(self.mem, self.n_seq, -1, -1)
+
     def _eval_image(self, data):
         M = self.M
         buf = (ctypes.c_uint8 * len(data)).from_buffer_copy(data)

@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marquand Playground</title>
+<script>try { const t = localStorage.getItem("marq-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&family=Azeret+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f3f4f6; --panel: #ffffff; --field: #fbfbfc; --ink: #1b1e23; --ink-2: #5c636d; --ink-3: #8b929c;
+    --rule: #d6dae0; --rule-2: #e6e9ed; --accent: #0f62fe; --accent-ink: #ffffff; --accent-soft: #e8efff;
+    --cell: #e1e5ea; --dim: #aab1bb; --yes: #127a45; --no: #c0392b;
+    --mono: "Azeret Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --text: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme=light]) {
+      --bg: #15171b; --panel: #1b1e23; --field: #16181c; --ink: #e6e8eb; --ink-2: #a2a9b3; --ink-3: #6f7782;
+      --rule: #2e333b; --rule-2: #252a31; --accent: #78a9ff; --accent-ink: #0b1733; --accent-soft: #1b2740;
+      --cell: #2a2f37; --dim: #5d6570; --yes: #4fc787; --no: #ff8a7a;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme=dark] {
+    --bg: #15171b; --panel: #1b1e23; --field: #16181c; --ink: #e6e8eb; --ink-2: #a2a9b3; --ink-3: #6f7782;
+    --rule: #2e333b; --rule-2: #252a31; --accent: #78a9ff; --accent-ink: #0b1733; --accent-soft: #1b2740;
+    --cell: #2a2f37; --dim: #5d6570; --yes: #4fc787; --no: #ff8a7a;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.55 var(--mono); -webkit-font-smoothing: antialiased; }
+  button, input, textarea { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .prose { font-family: var(--text); }
+
+  header { display: flex; align-items: center; gap: 18px; padding: 0 24px; height: 52px; background: var(--panel); border-bottom: 1px solid var(--rule); }
+  .word { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; letter-spacing: -.02em; }
+  .cap { display: grid; place-items: center; width: 26px; height: 26px; border: 1px solid var(--ink); border-bottom-width: 3px; border-radius: 4px; font-size: 13px; font-weight: 700; }
+  .word span:last-child { color: var(--ink-3); font-weight: 400; letter-spacing: 0; }
+  .bar-right { margin-left: auto; display: flex; align-items: center; gap: 18px; font-size: 12.5px; color: var(--ink-2); }
+  .status { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .led { width: 7px; height: 7px; background: var(--dim); }
+  .led.ok { background: var(--yes); } .led.down { background: var(--no); }
+  .token { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .token input { width: 200px; height: 30px; padding: 0 8px; border: 1px solid var(--rule); border-radius: 3px; background: var(--field); font-size: 12.5px; }
+  .theme { height: 30px; padding: 0 10px; border: 1px solid var(--rule); border-radius: 3px; background: transparent; color: var(--ink-2); font-size: 12.5px; cursor: pointer; white-space: nowrap; }
+  .theme:hover { color: var(--ink); border-color: var(--ink-3); }
+
+  main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .95fr); gap: 20px; max-width: 1280px; margin: 0 auto; padding: 24px; }
+  main > * { min-width: 0; }
+  .intro { grid-column: 1 / -1; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; padding-bottom: 4px; }
+  .intro h1 { margin: 0; font-size: 26px; line-height: 1.15; font-weight: 600; letter-spacing: -.04em; }
+  .intro p { margin: 6px 0 0; color: var(--ink-2); font-size: 15px; max-width: 58ch; }
+
+  .panel { background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; }
+  .phead { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 16px; height: 40px; border-bottom: 1px solid var(--rule); font-size: 12.5px; color: var(--ink-2); }
+  .phead b { color: var(--ink); font-weight: 600; }
+  .block { padding: 16px; }
+  .block + .block { border-top: 1px solid var(--rule); }
+  .hint { margin: 0 0 10px; color: var(--ink-2); font-size: 13.5px; }
+  .row-between { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+  .row-between h2 { margin: 0; font-size: 13.5px; font-weight: 600; }
+  .row-between small { color: var(--ink-3); font-size: 12px; font-variant-numeric: tabular-nums; }
+
+  .examples { display: flex; flex-wrap: wrap; gap: 6px; }
+  .examples button { height: 30px; padding: 0 10px; border: 1px solid var(--rule); border-radius: 3px; background: var(--field); color: var(--ink-2); font-size: 12.5px; cursor: pointer; }
+  .examples button:hover { color: var(--ink); border-color: var(--ink-3); }
+  .examples button[aria-pressed=true] { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+
+  .field { width: 100%; min-height: 34px; padding: 6px 9px; border: 1px solid var(--rule); border-radius: 3px; background: var(--field); font-size: 13px; }
+  .field:hover { border-color: var(--ink-3); }
+  .field:focus { outline: none; border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); background: var(--panel); }
+  textarea.field { display: block; min-height: 140px; resize: vertical; line-height: 1.6; }
+  .under { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
+  .attach { display: inline-flex; align-items: center; gap: 10px; }
+  .attach img { height: 30px; border: 1px solid var(--rule); border-radius: 3px; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+  .btn { display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 11px; border: 1px solid var(--rule); border-radius: 3px;
+    background: var(--panel); color: var(--ink); font-size: 12.5px; font-weight: 500; cursor: pointer; white-space: nowrap; }
+  .btn:hover { border-color: var(--ink-3); }
+  .btn.ghost { border-style: dashed; color: var(--ink-2); }
+  .btn.x { width: 30px; justify-content: center; padding: 0; border-color: transparent; color: var(--ink-3); background: transparent; }
+  .btn.x:hover { color: var(--no); border-color: var(--rule); }
+  .btn.go { height: 38px; padding: 0 16px; background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-size: 13.5px; font-weight: 600; }
+  .btn.go:hover { filter: brightness(1.08); }
+  .btn.go:disabled { cursor: progress; opacity: .75; }
+  .btn.go kbd { font: inherit; font-weight: 400; font-size: 11.5px; opacity: .8; }
+
+  .q + .q { margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--rule); }
+  .qhead { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .qhead .name { width: 140px; font-weight: 600; }
+  .types { display: inline-flex; border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; }
+  .types button { height: 32px; padding: 0 10px; border: 0; background: var(--field); color: var(--ink-2); font-size: 12px; cursor: pointer; white-space: nowrap; }
+  .types button + button { border-left: 1px solid var(--rule); }
+  .types button[aria-pressed=true] { background: var(--ink); color: var(--panel); }
+  .qhead .x { margin-left: auto; }
+  .opts { display: grid; gap: 6px; margin-top: 8px; }
+  .opt { display: grid; grid-template-columns: 28px minmax(0, .8fr) minmax(0, 1.2fr) 30px; gap: 6px; align-items: center; }
+  .opt.lvl { grid-template-columns: 28px minmax(0, 1fr) 30px; }
+  .key { display: grid; place-items: center; height: 28px; border: 1px solid var(--rule); border-bottom-width: 3px; border-radius: 3px; background: var(--panel); font-size: 12px; font-weight: 600; color: var(--ink-2); }
+  .noul { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 6px 10px; align-items: center; margin-top: 8px; font-size: 12.5px; color: var(--ink-2); }
+  .more { margin-top: 8px; }
+  .run { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+
+  aside { position: sticky; top: 16px; align-self: start; display: grid; gap: 20px; min-width: 0; }
+  aside > * { min-width: 0; }
+  .ans { padding: 16px; }
+  .ans + .ans { border-top: 1px solid var(--rule); }
+  .ahead { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .qn { color: var(--ink-3); font-size: 12.5px; }
+  .verdict { font-size: 22px; font-weight: 700; letter-spacing: -.03em; line-height: 1.15; overflow-wrap: anywhere; }
+  .verdict small { font-size: 13px; font-weight: 400; letter-spacing: 0; color: var(--ink-2); }
+  .kv { margin-left: auto; font-size: 12px; color: var(--ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .meter-row { display: grid; grid-template-columns: minmax(84px, 36%) minmax(0, 1fr) 6ch; gap: 12px; align-items: center; font-size: 12.5px; padding: 2px 0; }
+  .meter-row .lbl { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink-2); }
+  .meter-row.win .lbl { color: var(--ink); font-weight: 600; }
+  .meter-row .num { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+  .meter-row.win .num { color: var(--ink); }
+  /* segmented bar: 40 cells, like an instrument bar graph */
+  .meter { position: relative; height: 12px;
+    background: repeating-linear-gradient(90deg, var(--cell) 0 calc(2.5% - 2px), transparent calc(2.5% - 2px) 2.5%); }
+  .meter i { position: absolute; inset: 0 auto 0 0; width: 0;
+    background: repeating-linear-gradient(90deg, var(--dim) 0 calc(100% / var(--cells) - 2px), transparent calc(100% / var(--cells) - 2px) calc(100% / var(--cells)));
+    transition: width .5s steps(20, end); }
+  .win .meter i { background: repeating-linear-gradient(90deg, var(--accent) 0 calc(100% / var(--cells) - 2px), transparent calc(100% / var(--cells) - 2px) calc(100% / var(--cells))); }
+  .yn { position: relative; height: 12px; margin: 4px 0 6px;
+    background: repeating-linear-gradient(90deg, var(--cell) 0 calc(2.5% - 2px), transparent calc(2.5% - 2px) 2.5%); }
+  .yn i { position: absolute; top: -5px; bottom: -5px; width: 3px; background: var(--ink); left: 50%; transform: translateX(-50%); transition: left .5s steps(20, end); }
+  .scale { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--ink-3); }
+  .empty { padding: 28px 16px 30px; color: var(--ink-2); }
+  .empty .cursor { display: inline-block; width: .6em; height: 1.1em; background: var(--ink-3); vertical-align: text-bottom; margin-left: 4px; }
+  .empty p { margin: 12px 0 0; font-family: var(--text); font-size: 13.5px; max-width: 44ch; }
+  .err { padding: 16px; color: var(--no); white-space: pre-wrap; font-size: 13px; }
+  .stats { display: grid; grid-template-columns: repeat(4, auto); justify-content: start; gap: 2px 22px; padding: 12px 16px; border-top: 1px solid var(--rule); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .stats dt { color: var(--ink-3); }
+  .stats dd { margin: 0; color: var(--ink); grid-row: 2; }
+
+  .tabs { display: inline-flex; border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; }
+  .tabs button { height: 26px; padding: 0 10px; border: 0; background: transparent; color: var(--ink-2); font-size: 12px; cursor: pointer; }
+  .tabs button + button { border-left: 1px solid var(--rule); }
+  .tabs button[aria-pressed=true] { background: var(--ink); color: var(--panel); }
+  pre { margin: 0; padding: 14px 16px; max-height: 300px; overflow: auto; font-size: 12px; line-height: 1.6; color: var(--ink-2); }
+
+  @media (max-width: 980px) {
+    main { grid-template-columns: 1fr; padding: 16px; gap: 16px; }
+    aside { position: static; }
+    header { padding: 0 16px; }
+    .word span:last-child, .token span { display: none; }
+    .token input { width: 150px; }
+  }
+  @media (max-width: 600px) {
+    header { height: auto; padding: 10px 16px; flex-wrap: wrap; row-gap: 10px; }
+    .bar-right { width: 100%; margin-left: 0; justify-content: space-between; gap: 10px; }
+    .token { flex: 1; } .token input { width: 100%; }
+    .opt { grid-template-columns: 28px minmax(0, 1fr) 30px; }
+    .opt .desc { grid-column: 2; grid-row: 2; }
+    .opt .x { grid-column: 3; grid-row: 1; }
+    .qhead { flex-wrap: wrap; }
+    .qhead .name { flex: 1; width: auto; min-width: 0; }
+    .qhead .types { order: 3; }
+    .stats { grid-template-columns: repeat(2, auto); }
+    .stats dd { grid-row: auto; }
+    .intro h1 { font-size: 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .meter i, .yn i { transition: none; } }
+</style>
+</head>
+<body>
+<header>
+  <span class="word"><span class="cap" aria-hidden="true">M</span><span>marquand</span><span>playground</span></span>
+  <div class="bar-right">
+    <span class="status"><span class="led" id="led"></span><span id="model">connecting</span></span>
+    <label class="token"><span>token</span><input id="token" type="password" placeholder="MARQ_TOKEN" title="Only needed if the server was started with MARQ_TOKEN set" autocomplete="off" aria-label="API token, only needed if MARQ_TOKEN is set"></label>
+    <button class="theme" id="theme" aria-label="Color theme">theme: system</button>
+  </div>
+</header>
+
+<main>
+  <div class="intro">
+    <div>
+      <h1>Typed decisions, on your machine</h1>
+      <p class="prose">Give the model some state and a few questions. It answers each one with a choice, a yes/no probability or a score, and shows how sure it is.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="panel">
+      <div class="phead"><b>input</b><span>POST /v1/systemone</span></div>
+
+      <div class="block">
+        <div class="row-between"><h2>examples</h2></div>
+        <div class="examples" id="examples" role="group" aria-label="Examples"></div>
+      </div>
+
+      <div class="block">
+        <div class="row-between"><h2><label for="state">state</label></h2><small id="count">0 chars</small></div>
+        <p class="hint prose">What the model reads before answering. Plain text, or JSON to send it as structured state.</p>
+        <textarea id="state" class="field" spellcheck="false"></textarea>
+        <div class="under">
+          <span class="attach">
+            <input type="file" id="file" accept="image/*" class="sr">
+            <label for="file" class="btn">attach image</label>
+            <img id="thumb" hidden alt="Attached image">
+            <button class="btn x" id="clearimg" hidden aria-label="Remove image">×</button>
+          </span>
+          <small class="hint prose" style="margin:0">Images need the vision, fast or instant model.</small>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="row-between"><h2>questions</h2><small id="qcount"></small></div>
+        <p class="hint prose">All of them are answered together, against the same state.</p>
+        <div id="questions"></div>
+      </div>
+
+      <div class="block run">
+        <button class="btn ghost" data-act="addq">+ question</button>
+        <button class="btn go" id="run"><span id="runlabel">run</span><kbd>ctrl+enter</kbd></button>
+      </div>
+    </div>
+  </div>
+
+  <aside>
+    <section class="panel" aria-live="polite">
+      <div class="phead"><b>output</b><span id="outmodel"></span></div>
+      <div id="out">
+        <div class="empty">waiting for a run<span class="cursor"></span>
+          <p>Each answer shows the pick, how sure the model is, and how the probability spread over every option.</p>
+        </div>
+      </div>
+      <dl class="stats" id="stats" hidden></dl>
+    </section>
+    <section class="panel">
+      <div class="phead"><span class="tabs" role="group" aria-label="Raw JSON"><button data-tab="req" aria-pressed="true">request</button><button data-tab="res" aria-pressed="false">response</button></span>
+        <button class="btn" id="curl">copy as curl</button></div>
+      <pre id="raw">{}</pre>
+    </section>
+  </aside>
+</main>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+const KEYS = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"];
+const choice = (name, instructions, opts) => ({name, type: "choice", instructions, options: opts.map(o => typeof o === "string" ? {k: o, d: ""} : {k: o[0], d: o[1]}), levels: [], yes: "", no: ""});
+const score = (name, instructions, levels) => ({name, type: "score", instructions, options: [], levels, yes: "", no: ""});
+const noul = (name, instructions, yes = "", no = "") => ({name, type: "noul", instructions, options: [], levels: [], yes, no});
+
+const EXAMPLES = {
+  "support-routing": ["Customer: I was charged twice for order #5521 last week and nobody has answered my emails. Fix this now or I'm disputing it with my bank.", [
+    choice("route", "Which team should handle this?", [["billing", "charges, refunds, invoices"], ["shipping", "delivery and tracking"], ["technical", "app or website bugs"], ["account", "login and profile"]]),
+    noul("angry", "Is the customer angry?"),
+    score("urgency", "How urgent is this?", ["can wait", "this week", "today", "right now"])]],
+  "refund-check": ['{"policy": "Refunds need a receipt and must be requested within 30 days of purchase. Opened software is not refundable.", "request": {"item": "wireless headphones", "days_since_purchase": 12, "has_receipt": true, "opened": true}}', [
+    noul("eligible", "Is this refund allowed under the policy?", "every condition is met and nothing rules it out", "a condition is missing or something rules it out"),
+    choice("reason", "What decides it?", [["receipt", "receipt missing"], ["window", "outside 30 days"], ["opened_software", "opened software"], ["none", "nothing blocks it"]])]],
+  "incident-urgency": ["03:12 checkout API returning 500 for ~40% of requests in eu-west. Payments failing, no data loss reported. Rollback of deploy #812 in progress.", [
+    score("severity", "Rate the incident impact.", ["cosmetic only", "one user or a workaround exists", "many users blocked, no data loss", "data loss or physical harm"]),
+    noul("page_oncall", "Should the on-call engineer be paged right now?")]],
+  "agent-next-step": ['{"goal": "log in and download last month\'s invoice", "page": "login form", "elements": [{"id": 1, "tag": "input", "label": "Email"}, {"id": 2, "tag": "input", "label": "Password"}, {"id": 3, "tag": "button", "text": "Sign in"}], "filled": ["Email"]}', [
+    choice("next", "What should the agent do next?", [["type_password", "type into Password"], ["click_sign_in", "click Sign in"], ["type_email", "type into Email"], ["done", "the goal is done"]]),
+    noul("safe", "Is the next step safe to do without asking the user?")]],
+  "npc-decision": ['{"npc": "Mara the blacksmith", "hunger": 88, "energy": 40, "time": "18:40", "weather": "rain", "nearby": ["tavern (40 m)", "forge (5 m)", "home (200 m)"], "waiting_customer": false}', [
+    choice("next", "What should Mara do next?", [["eat", "go to the tavern to eat"], ["work", "work at the forge"], ["rest", "go home and sleep"], ["wander", "walk around town"]]),
+    choice("mood", "How is Mara feeling?", ["happy", "tired", "grumpy", "hungry", "calm"]),
+    noul("hungry", "Is Mara hungry enough that eating should come first?")]],
+};
+
+let questions = [], image = null, last = {req: {}, res: {}}, tab = "req";
+
+function card(q, i) {
+  const types = [["choice", "choice"], ["noul", "yes/no"], ["score", "score"]]
+    .map(([t, l]) => `<button data-act="type" data-q="${i}" data-t="${t}" aria-pressed="${q.type === t}">${l}</button>`).join("");
+  let body;
+  if (q.type === "choice") {
+    body = `<div class="opts">${q.options.map((o, j) => `<div class="opt"><span class="key" title="The model answers with this key">${KEYS[j] ?? "·"}</span>
+      <input class="field" data-q="${i}" data-o="${j}" data-f="k" value="${esc(o.k)}" placeholder="option" aria-label="Option ${j + 1}">
+      <input class="field desc" data-q="${i}" data-o="${j}" data-f="d" value="${esc(o.d)}" placeholder="when it applies (optional)" aria-label="Option ${j + 1} description">
+      <button class="btn x" data-act="rmopt" data-q="${i}" data-o="${j}" aria-label="Remove option ${j + 1}">×</button></div>`).join("")}</div>
+      <button class="btn ghost more" data-act="addopt" data-q="${i}">+ option</button>`;
+  } else if (q.type === "score") {
+    body = `<div class="opts">${q.levels.map((l, j) => `<div class="opt lvl"><span class="key">${j}</span>
+      <input class="field" data-q="${i}" data-o="${j}" value="${esc(l)}" placeholder="level ${j}" aria-label="Level ${j}">
+      <button class="btn x" data-act="rmopt" data-q="${i}" data-o="${j}" aria-label="Remove level ${j}">×</button></div>`).join("")}</div>
+      <button class="btn ghost more" data-act="addopt" data-q="${i}">+ level</button>`;
+  } else {
+    body = `<div class="noul"><label for="y${i}">counts as yes</label><input id="y${i}" class="field" data-q="${i}" data-f="yes" value="${esc(q.yes)}" placeholder="optional">
+      <label for="n${i}">counts as no</label><input id="n${i}" class="field" data-q="${i}" data-f="no" value="${esc(q.no)}" placeholder="optional"></div>`;
+  }
+  return `<div class="q"><div class="qhead"><input class="field name" data-q="${i}" data-f="name" value="${esc(q.name)}" aria-label="Question name">
+    <span class="types" role="group" aria-label="Answer type">${types}</span>
+    <button class="btn x" data-act="rmq" data-q="${i}" aria-label="Remove question">×</button></div>
+    <input class="field" data-q="${i}" data-f="instructions" value="${esc(q.instructions)}" placeholder="what should be decided?" aria-label="Question">${body}</div>`;
+}
+
+function renderQuestions() {
+  $("#questions").innerHTML = questions.map(card).join("");
+  $("#qcount").textContent = `${questions.length} total`;
+}
+
+function load(name) {
+  const [state, qs] = EXAMPLES[name];
+  $("#state").value = state; count();
+  questions = structuredClone(qs); renderQuestions();
+  document.querySelectorAll("#examples button").forEach(b => b.setAttribute("aria-pressed", b.dataset.example === name));
+}
+
+function count() { $("#count").textContent = `${$("#state").value.length.toLocaleString()} chars`; }
+
+function body() {
+  let state = $("#state").value.trim();
+  if (/^[\[{]/.test(state)) { try { state = JSON.parse(state); } catch {} }
+  if (image) state = state && typeof state === "object" && !Array.isArray(state) ? {...state, image} : {text: state, image};
+  const qs = {};
+  questions.forEach((q, i) => {
+    const name = q.name.trim() || `q${i + 1}`;
+    if (q.type === "choice") qs[name] = {type: "choice", instructions: q.instructions, criteria: Object.fromEntries(q.options.filter(o => o.k.trim()).map(o => [o.k.trim(), o.d.trim() || null]))};
+    else if (q.type === "score") qs[name] = {type: "score", instructions: q.instructions, criteria: q.levels.map(l => l.trim()).filter(Boolean)};
+    else {
+      const c = {};
+      if (q.yes.trim()) c.true = q.yes.trim();
+      if (q.no.trim()) c.false = q.no.trim();
+      qs[name] = {type: "noul", instructions: q.instructions, ...(Object.keys(c).length ? {criteria: c} : {})};
+    }
+  });
+  return {model: "marq-latest", state, questions: qs};
+}
+
+function headers() {
+  const t = $("#token").value.trim();
+  return {"Content-Type": "application/json", ...(t ? {Authorization: "Bearer " + t} : {})};
+}
+
+const pct = p => `${(p * 100).toFixed(p >= 0.995 || p < 0.001 ? 0 : 1)}%`;
+const legendText = v => typeof v === "string" ? v : JSON.stringify(v);
+
+// bars snap to whole cells, like a bar-graph display
+function meters(rows, win) {
+  return rows.map(([k, p]) => `<div class="meter-row ${k === win ? "win" : ""}"><span class="lbl" title="${esc(k)}">${esc(k)}</span>
+    <span class="meter" style="--cells:${Math.max(1, Math.round(p * 40))}" role="img" aria-label="${pct(p)}"><i data-w="${(Math.round(p * 40) / 40 * 100).toFixed(1)}"></i></span>
+    <span class="num">${pct(p)}</span></div>`).join("");
+}
+
+function answer(name, a) {
+  const conf = a.confidence === undefined ? "" : `<span class="kv">conf ${a.confidence.toFixed(2)}</span>`;
+  const head = v => `<div class="ahead"><span class="qn">${esc(name)}</span><span class="verdict">${v}</span>${conf}</div>`;
+  if (a.type === "choice") {
+    const rows = Object.entries(a.probabilities).sort((x, y) => y[1] - x[1]);
+    return `<div class="ans">${head(esc(a.choice))}${meters(rows, a.choice)}</div>`;
+  }
+  if (a.type === "score") {
+    const n = Object.keys(a.legend).length, near = String(Math.round(a.score));
+    const rows = Object.entries(a.probabilities).map(([k, p]) => [`${k} ${legendText(a.legend[k])}`, p]);
+    const top = Object.entries(a.probabilities).sort((x, y) => y[1] - x[1])[0][0];
+    return `<div class="ans">${head(`${a.score.toFixed(2)}<small> / ${n - 1}, nearest "${esc(legendText(a.legend[near]))}"</small>`)}${meters(rows, `${top} ${legendText(a.legend[top])}`)}</div>`;
+  }
+  const p = a.noul;
+  return `<div class="ans">${head(`${p >= 0.5 ? "yes" : "no"}<small> p(yes) ${p.toFixed(3)}</small>`)}
+    <div class="yn" role="img" aria-label="${pct(p)} yes"><i data-left="${(p * 100).toFixed(1)}"></i></div>
+    <div class="scale"><span>no</span><span>unsure</span><span>yes</span></div></div>`;
+}
+
+function grow() {
+  void $("#out").offsetWidth;  // commit the empty meters first so they fill in
+  document.querySelectorAll(".meter i[data-w]").forEach(f => f.style.width = f.dataset.w + "%");
+  document.querySelectorAll(".yn i[data-left]").forEach(g => g.style.left = g.dataset.left + "%");
+}
+
+function showRaw() { $("#raw").textContent = JSON.stringify(last[tab], null, 2); }
+
+async function run() {
+  const req = body();
+  last = {req, res: {}}; showRaw();
+  $("#run").disabled = true; $("#runlabel").textContent = "running";
+  const t0 = performance.now();
+  try {
+    const r = await fetch("/v1/systemone", {method: "POST", headers: headers(), body: JSON.stringify(req)});
+    const j = await r.json(), rtt = performance.now() - t0;
+    last.res = j; showRaw();
+    if (!r.ok) {
+      const why = r.status === 401 ? "The server wants a token. Put the value of MARQ_TOKEN in the token field."
+        : Array.isArray(j.detail) ? j.detail.map(e => `${e.loc.slice(1).join(".")}: ${e.msg}`).join("\n") : j.detail;
+      $("#out").innerHTML = `<div class="err">error ${r.status}\n${esc(why)}</div>`; $("#stats").hidden = true;
+      return;
+    }
+    $("#out").innerHTML = Object.entries(j.answers).map(([n, a]) => answer(n, a)).join("");
+    $("#outmodel").textContent = j.model;
+    $("#stats").innerHTML = `<dt>model time</dt><dd>${j.latency_ms} ms</dd><dt>round trip</dt><dd>${Math.round(rtt)} ms</dd><dt>tokens</dt><dd>${j.usage.input_tokens}</dd><dt>questions</dt><dd>${Object.keys(j.answers).length}</dd>`;
+    $("#stats").hidden = false;
+    grow();
+  } catch {
+    $("#out").innerHTML = `<div class="err">Can't reach the server. Start it with: marq serve --model fast</div>`;
+    health();
+  } finally {
+    $("#run").disabled = false; $("#runlabel").textContent = "run";
+  }
+}
+
+async function health() {
+  try {
+    const j = await (await fetch("/health")).json();
+    $("#led").className = "led ok"; $("#model").textContent = j.model;
+  } catch { $("#led").className = "led down"; $("#model").textContent = "server not running"; }
+}
+
+const THEMES = ["system", "light", "dark"];
+function setTheme(t) {
+  if (t === "system") delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = t;
+  $("#theme").textContent = `theme: ${t}`;
+  try { t === "system" ? localStorage.removeItem("marq-theme") : localStorage.setItem("marq-theme", t); } catch {}
+}
+$("#theme").onclick = () => setTheme(THEMES[(THEMES.indexOf(document.documentElement.dataset.theme || "system") + 1) % 3]);
+setTheme(document.documentElement.dataset.theme || "system");
+
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (t.id === "state") return count();
+  if (t.dataset.q === undefined) return;
+  const q = questions[+t.dataset.q];
+  if (t.dataset.o === undefined) q[t.dataset.f] = t.value;
+  else if (q.type === "score") q.levels[+t.dataset.o] = t.value;
+  else q.options[+t.dataset.o][t.dataset.f] = t.value;
+});
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  if (b.dataset.tab) {
+    tab = b.dataset.tab;
+    document.querySelectorAll("[data-tab]").forEach(x => x.setAttribute("aria-pressed", x === b));
+    return showRaw();
+  }
+  const i = +b.dataset.q, q = questions[i];
+  switch (b.dataset.act) {
+    case "addq": questions.push(choice(`q${questions.length + 1}`, "", ["yes", "no"])); break;
+    case "rmq": questions.splice(i, 1); break;
+    case "type": q.type = b.dataset.t;
+      if (q.type === "choice" && !q.options.length) q.options = [{k: "", d: ""}, {k: "", d: ""}];
+      if (q.type === "score" && !q.levels.length) q.levels = ["low", "medium", "high"];
+      break;
+    case "addopt": q.type === "score" ? q.levels.push("") : q.options.push({k: "", d: ""}); break;
+    case "rmopt": (q.type === "score" ? q.levels : q.options).splice(+b.dataset.o, 1); break;
+    default: return;
+  }
+  renderQuestions();
+});
+
+$("#run").onclick = run;
+document.addEventListener("keydown", e => { if ((e.ctrlKey || e.metaKey) && e.key === "Enter") { e.preventDefault(); run(); } });
+$("#curl").onclick = () => {
+  const t = $("#token").value.trim();
+  const cmd = `curl -s ${location.origin}/v1/systemone -H 'Content-Type: application/json'${t ? ` -H 'Authorization: Bearer ${t}'` : ""} -d '${JSON.stringify(body()).replace(/'/g, "'\\''")}'`;
+  navigator.clipboard.writeText(cmd).then(() => { $("#curl").textContent = "copied"; setTimeout(() => $("#curl").textContent = "copy as curl", 1400); });
+};
+$("#file").onchange = e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => { image = r.result; $("#thumb").src = image; $("#thumb").hidden = $("#clearimg").hidden = false; };
+  r.readAsDataURL(f);
+};
+$("#clearimg").onclick = () => { image = null; $("#file").value = ""; $("#thumb").hidden = $("#clearimg").hidden = true; };
+
+$("#examples").innerHTML = Object.keys(EXAMPLES).map(n => `<button data-example="${esc(n)}" aria-pressed="false">${esc(n)}</button>`).join("");
+$("#examples").onclick = e => { const n = e.target.closest("button")?.dataset.example; if (n) load(n); };
+load("support-routing");
+health();
+</script>
+</body>
+</html>

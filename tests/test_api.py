@@ -30,8 +30,10 @@ def post(body, token=None):
 @pytest.fixture(scope="module", autouse=True)
 def server():
     p = subprocess.Popen([sys.executable, "-m", "marq.cli", "serve", "--model", MODEL, "--port", str(PORT), "--ctx", "8192"],
-                         env={**os.environ, "MARQ_TOKEN": "sekret"}, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                         env={**os.environ, "MARQ_TOKEN": "sekret"}, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True)
     for _ in range(600):
+        if p.poll() is not None:  # it died (usually not enough free VRAM), so say why instead of waiting it out
+            pytest.fail("test server exited:\n" + p.stderr.read()[-800:])
         try:
             urllib.request.urlopen(URL + "/health", timeout=1)
             break
@@ -87,3 +89,9 @@ def test_cli_ask():
                           "--score", "urgency=low,medium,high"], capture_output=True, text=True, check=True).stdout
     a = json.loads(out)["answers"]
     assert a["intent"]["choice"] == "cancel" and "noul" in a["polite"] and "score" in a["urgency"]
+
+
+def test_playground_page():
+    with urllib.request.urlopen(URL + "/", timeout=10) as r:
+        html = r.read().decode()
+    assert r.status == 200 and r.headers["Content-Type"].startswith("text/html") and "/v1/systemone" in html

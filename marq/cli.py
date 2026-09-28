@@ -74,6 +74,7 @@ def main(argv=None):
     s.add_argument("--host", default="127.0.0.1")
     s.add_argument("--port", type=int, default=8765)
     s.add_argument("--ctx", type=int, default=65536, help="context tokens (halved automatically if VRAM is short)")
+    s.add_argument("--keep-warm", type=int, default=300, help="seconds to keep the GPU awake after a request (0 = let it sleep)")
     a = sub.add_parser("ask", help="ask typed questions about STATE (uses a running server, else loads the model)")
     a.add_argument("state", help="state text, or @file.json / @file.txt")
     a.add_argument("--choice", action="append", metavar="NAME=a,b,c")
@@ -90,7 +91,7 @@ def main(argv=None):
 
     if args.cmd == "serve":
         from .server import serve
-        serve(engine_for(args), args.host, args.port, os.environ.get("MARQ_TOKEN", ""))
+        serve(engine_for(args), args.host, args.port, os.environ.get("MARQ_TOKEN", ""), args.keep_warm)
         return
 
     args.instructions = dict(x.split("=", 1) for x in args.ask)

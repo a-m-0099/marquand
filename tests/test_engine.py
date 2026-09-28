@@ -134,3 +134,12 @@ def test_state_over_loaded_context_is_422():
 def test_long_text_image_field_is_just_text():
     r = ask({"image": "a painting of a harbor at dusk " * 100}, q={"type": "noul", "instructions": "Is a harbor described?"})
     assert r["answers"]["q"]["type"] == "noul"
+
+
+def test_ping_leaves_answers_alone():
+    body = {"state": "The ball is red and the box is blue.", "questions": {
+        "c": {"type": "choice", "instructions": "Ball color?", "criteria": {"red": None, "blue": None}}}}
+    a = E.systemone(body)["answers"]
+    E.ping()
+    b = E.systemone(body)["answers"]  # same prompt, so this goes through the cache reuse path
+    assert a == b
